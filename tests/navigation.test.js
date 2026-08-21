@@ -5,7 +5,7 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
 const html = fs.readFileSync(path.join(root, "docs/index.html"), "utf8");
-const css = ["styles.css", "styles-v5a.css", "styles-v5b.css"]
+const css = ["styles.css", "styles-v5a.css", "styles-v5b.css", "styles-v6.css"]
     .map((file) => fs.readFileSync(path.join(root, "docs/assets/css", file), "utf8"))
     .join("\n");
 const navigation = fs.readFileSync(path.join(root, "docs/assets/js/navigation.js"), "utf8");
@@ -27,4 +27,20 @@ test("el botón abre un panel lateral y no conserva estados anteriores", () => {
 test("seleccionar un módulo y presionar Escape cierran el menú", () => {
     assert.match(navigation, /applyRoute[\s\S]*closeSidebar\(\);/);
     assert.match(navigation, /event\.key === "Escape"[\s\S]*closeSidebar/);
+});
+
+test("las aplicaciones especializadas se integran sin desplazamiento interior", () => {
+    assert.match(navigation, /scrolling="no"/);
+    assert.match(navigation, /new ResizeObserver\(scheduleResize\)/);
+    assert.match(navigation, /childDocument\.addEventListener\("wheel", forwardWheel/);
+    assert.match(navigation, /\.topbar \{ display: none !important; \}/);
+    assert.match(css, /\.integrated-app-canvas\s*\{[\s\S]*overflow:\s*hidden;/);
+    assert.doesNotMatch(css, /embedded-tool-card/);
+});
+
+test("se preservan nombres y rutas de los cuatro módulos", () => {
+    assert.match(navigation, /Creador de actuaciones en lote/);
+    assert.match(navigation, /Creador de Lotes - Cédulas/);
+    assert.match(navigation, /Confronte de Liquidaciones EJF/);
+    assert.match(navigation, /"cargador-eje": "actuaciones-lote"/);
 });

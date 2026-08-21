@@ -122,41 +122,40 @@
         `);
     }
 
-    function externalViewMarkup({ route, eyebrow, title, lead, privacy, cardTitle, cardCopy, url, frameId, tall, icon }) {
+    function integratedViewMarkup({ route, title, cardCopy, url, frameId, tool, icon, calculation }) {
         return `
             <section class="app-view external-app-view" data-view="${route}" hidden aria-hidden="true">
-                <section class="hero hero--compact">
-                    <div>
-                        <p class="hero__eyebrow">${eyebrow}</p>
-                        <h1>${title}</h1>
-                        <p class="hero__lead">${lead}</p>
+                <div class="integrated-app-bar">
+                    <div class="integrated-app-bar__identity">
+                        <span class="integrated-app-bar__icon${calculation ? " integrated-app-bar__icon--calculation" : ""}" aria-hidden="true">${icon}</span>
+                        <span class="integrated-app-bar__copy">
+                            <strong>${title}</strong>
+                            <small>${cardCopy}</small>
+                        </span>
                     </div>
-                    <div class="privacy-chip"><span aria-hidden="true">🔒</span><span>${privacy}</span></div>
-                </section>
-                <section class="embedded-tool-card">
-                    <header class="embedded-tool-card__header">
-                        <div class="embedded-tool-card__identity">
-                            <span class="embedded-tool-card__icon${tall ? " embedded-tool-card__icon--calculation" : ""}" aria-hidden="true">${icon}</span>
-                            <div>
-                                <p class="embedded-tool-card__eyebrow">Aplicación integrada</p>
-                                <h2>${cardTitle}</h2>
-                                <p>${cardCopy}</p>
-                            </div>
-                        </div>
-                        <div class="embedded-tool-card__actions">
-                            <button class="button button--secondary button--compact" type="button" data-frame-reload="${frameId}">↻ Recargar</button>
-                            <a class="button button--primary button--compact" href="${url}" target="_blank" rel="noopener noreferrer">↗ Abrir aparte</a>
-                        </div>
-                    </header>
-                    <div class="embedded-tool-shell${tall ? " embedded-tool-shell--tall" : ""}" data-frame-shell>
-                        <div class="embedded-tool-status" data-frame-status>
-                            <span class="embedded-tool-status__spinner" aria-hidden="true"></span>
-                            <strong>Cargando ${title}…</strong>
-                            <small>La primera apertura puede demorar mientras se preparan los componentes de lectura documental.</small>
-                        </div>
-                        <iframe id="${frameId}" class="embedded-tool-frame" data-external-frame data-src="${url}" title="${title}" allow="clipboard-read; clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    <div class="integrated-app-bar__actions">
+                        <button class="button button--secondary button--compact" type="button" data-frame-reload="${frameId}">↻ Recargar</button>
+                        <a class="button button--primary button--compact" href="${url}" target="_blank" rel="noopener noreferrer">↗ Abrir aparte</a>
                     </div>
-                </section>
+                </div>
+                <div class="integrated-app-canvas" data-frame-shell>
+                    <div class="integrated-app-status" data-frame-status>
+                        <span class="integrated-app-status__spinner" aria-hidden="true"></span>
+                        <strong>Cargando ${title}…</strong>
+                        <small>La primera apertura puede demorar mientras se preparan los componentes de lectura documental.</small>
+                    </div>
+                    <iframe
+                        id="${frameId}"
+                        class="integrated-app-frame"
+                        data-external-frame
+                        data-tool="${tool}"
+                        data-src="${url}"
+                        title="${title}"
+                        scrolling="no"
+                        allow="clipboard-read; clipboard-write"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                    ></iframe>
+                </div>
                 <p class="module-disclaimer">Herramienta de asistencia interna. La revisión profesional y la confirmación final permanecen a cargo del usuario.</p>
             </section>
         `;
@@ -166,41 +165,35 @@
         const main = document.querySelector(".workspace__content main.app-shell");
         if (!main || main.querySelector('[data-view="lotes-cedulas"]')) return;
 
-        main.insertAdjacentHTML("beforeend", externalViewMarkup({
+        main.insertAdjacentHTML("beforeend", integratedViewMarkup({
             route: "lotes-cedulas",
-            eyebrow: "Automatización EJE · Notificaciones",
             title: "Creador de Lotes - Cédulas",
-            lead: "Analiza actuaciones en PDF, identifica las cédulas remitidas a la Oficina de Notificaciones y prepara su incorporación controlada en Crear lote de EJE.",
-            privacy: "El PDF se procesa localmente y la creación definitiva del lote permanece bajo control humano.",
-            cardTitle: "Cédulas EJE",
-            cardCopy: "Detecta remisiones válidas, separa cédulas observadas y excluye los casos que no corresponden al circuito de la Oficina de Notificaciones.",
+            cardCopy: "Vista continua: el desplazamiento pertenece a la página principal y no a una ventana interior.",
             url: CEDULAS_URL,
             frameId: "cedulasEjeFrame",
-            tall: false,
-            icon: "✉"
+            tool: "cedulas",
+            icon: "✉",
+            calculation: false
         }));
 
-        main.insertAdjacentHTML("beforeend", externalViewMarkup({
+        main.insertAdjacentHTML("beforeend", integratedViewMarkup({
             route: "confronte-liquidaciones",
-            eyebrow: "Control judicial · Ejecuciones fiscales",
             title: "Confronte de Liquidaciones EJF",
-            lead: "Compara constancias de deuda y liquidaciones mandatarias, permite revisar la lectura de los PDFs y recalcula intereses con trazabilidad por período.",
-            privacy: "Los PDFs se procesan en el navegador y no se envían a un servidor.",
-            cardTitle: "Confronte de Liquidaciones EJF · v2.1",
-            cardCopy: "Controla identidad e integridad nominal, reconoce ejecuciones especiales y expone el desarrollo del cálculo por posición y por tramo.",
+            cardCopy: "Vista continua: carga, revisión y resultados forman parte del desplazamiento general de la suite.",
             url: CONFRONTE_URL,
             frameId: "confronteEJFrame",
-            tall: true,
-            icon: "≋"
+            tool: "confronte",
+            icon: "≋",
+            calculation: true
         }));
     }
 
     function updateShellMetadata() {
         const version = document.querySelector(".site-header__version");
-        if (version) version.textContent = "v6.0";
+        if (version) version.textContent = "v6.1";
     }
 
-    function prepareV6Shell() {
+    function prepareV61Shell() {
         ensureStyles();
         renameActuacionesModule();
         addMenuEntries();
@@ -208,16 +201,200 @@
         updateShellMetadata();
     }
 
-    function setFrameStatus(frame, ready) {
+    function setFrameStatus(frame, ready, message) {
         const shell = frame.closest("[data-frame-shell]");
         const status = shell?.querySelector("[data-frame-status]");
         if (!status) return;
         status.hidden = ready;
+        if (message) {
+            const strong = status.querySelector("strong");
+            if (strong) strong.textContent = message;
+        }
+    }
+
+    function injectedFrameCss(tool) {
+        const common = `
+            html, body {
+                min-height: 0 !important;
+                height: auto !important;
+                overflow: hidden !important;
+                background: transparent !important;
+                overscroll-behavior: none !important;
+            }
+            body { margin: 0 !important; }
+            .topbar { display: none !important; }
+            .app-shell { min-height: 0 !important; }
+            footer.footer { display: none !important; }
+        `;
+
+        if (tool === "cedulas") {
+            return common + `
+                .app-shell > .hero {
+                    padding-top: 34px !important;
+                    border-top: 0 !important;
+                }
+            `;
+        }
+
+        return common;
+    }
+
+    function integrateFrame(frame) {
+        try {
+            const childWindow = frame.contentWindow;
+            const childDocument = frame.contentDocument;
+            if (!childWindow || !childDocument?.documentElement || !childDocument.body) {
+                throw new Error("Documento integrado no disponible");
+            }
+
+            frame._sec29Cleanup?.();
+
+            let style = childDocument.getElementById("sec29-integrated-style");
+            if (!style) {
+                style = childDocument.createElement("style");
+                style.id = "sec29-integrated-style";
+                childDocument.head.appendChild(style);
+            }
+            style.textContent = injectedFrameCss(frame.dataset.tool);
+
+            let pending = false;
+            const resizeFrame = () => {
+                pending = false;
+                const body = childDocument.body;
+                const html = childDocument.documentElement;
+                if (!body || !html) return;
+
+                // Se mide con un alto mínimo temporal para permitir tanto crecimiento como reducción.
+                frame.style.height = "1px";
+                const measured = Math.max(
+                    body.scrollHeight,
+                    body.offsetHeight,
+                    html.scrollHeight,
+                    html.offsetHeight,
+                    body.getBoundingClientRect().height,
+                    html.getBoundingClientRect().height
+                );
+                frame.style.height = `${Math.max(680, Math.ceil(measured) + 2)}px`;
+            };
+
+            const scheduleResize = () => {
+                if (pending) return;
+                pending = true;
+                requestAnimationFrame(resizeFrame);
+            };
+
+            const resizeObserver = new ResizeObserver(scheduleResize);
+            resizeObserver.observe(childDocument.documentElement);
+            resizeObserver.observe(childDocument.body);
+
+            const mutationObserver = new MutationObserver(scheduleResize);
+            mutationObserver.observe(childDocument.body, {
+                subtree: true,
+                childList: true,
+                attributes: true,
+                characterData: true
+            });
+
+            const forwardWheel = (event) => {
+                if (event.ctrlKey) return;
+                window.scrollBy({
+                    top: event.deltaY,
+                    left: event.deltaX,
+                    behavior: "auto"
+                });
+                event.preventDefault();
+            };
+
+            let touchPoint = null;
+            const rememberTouch = (event) => {
+                if (event.touches.length !== 1) {
+                    touchPoint = null;
+                    return;
+                }
+                touchPoint = {
+                    x: event.touches[0].clientX,
+                    y: event.touches[0].clientY
+                };
+            };
+
+            const forwardTouch = (event) => {
+                if (!touchPoint || event.touches.length !== 1) return;
+                const current = event.touches[0];
+                const deltaX = touchPoint.x - current.clientX;
+                const deltaY = touchPoint.y - current.clientY;
+
+                if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 1) {
+                    window.scrollBy({ top: deltaY, left: 0, behavior: "auto" });
+                    touchPoint = { x: current.clientX, y: current.clientY };
+                    event.preventDefault();
+                }
+            };
+
+            const forwardKeys = (event) => {
+                const tag = event.target?.tagName?.toLowerCase();
+                if (["input", "textarea", "select", "button"].includes(tag)) return;
+
+                const movements = {
+                    PageDown: Math.round(window.innerHeight * 0.86),
+                    PageUp: -Math.round(window.innerHeight * 0.86),
+                    ArrowDown: 48,
+                    ArrowUp: -48,
+                    " ": event.shiftKey ? -Math.round(window.innerHeight * 0.86) : Math.round(window.innerHeight * 0.86)
+                };
+
+                if (Object.prototype.hasOwnProperty.call(movements, event.key)) {
+                    window.scrollBy({ top: movements[event.key], behavior: "auto" });
+                    event.preventDefault();
+                } else if (event.key === "Home") {
+                    window.scrollTo({ top: 0, behavior: "auto" });
+                    event.preventDefault();
+                } else if (event.key === "End") {
+                    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "auto" });
+                    event.preventDefault();
+                }
+            };
+
+            childDocument.addEventListener("wheel", forwardWheel, { passive: false });
+            childDocument.addEventListener("touchstart", rememberTouch, { passive: true });
+            childDocument.addEventListener("touchmove", forwardTouch, { passive: false });
+            childDocument.addEventListener("touchend", () => { touchPoint = null; }, { passive: true });
+            childDocument.addEventListener("keydown", forwardKeys, true);
+            childDocument.addEventListener("click", scheduleResize, true);
+            childDocument.addEventListener("change", scheduleResize, true);
+            childWindow.addEventListener("resize", scheduleResize);
+            window.addEventListener("resize", scheduleResize);
+
+            frame._sec29Cleanup = () => {
+                resizeObserver.disconnect();
+                mutationObserver.disconnect();
+                childDocument.removeEventListener("wheel", forwardWheel);
+                childDocument.removeEventListener("touchstart", rememberTouch);
+                childDocument.removeEventListener("touchmove", forwardTouch);
+                childDocument.removeEventListener("keydown", forwardKeys, true);
+                childDocument.removeEventListener("click", scheduleResize, true);
+                childDocument.removeEventListener("change", scheduleResize, true);
+                childWindow.removeEventListener("resize", scheduleResize);
+                window.removeEventListener("resize", scheduleResize);
+            };
+
+            scheduleResize();
+            [60, 250, 800, 1800].forEach((delay) => setTimeout(scheduleResize, delay));
+            setFrameStatus(frame, true);
+        } catch (error) {
+            // Respaldo: si el navegador impide acceder al documento integrado,
+            // la herramienta sigue disponible mediante “Abrir aparte”.
+            frame.style.height = "82vh";
+            frame.setAttribute("scrolling", "yes");
+            setFrameStatus(frame, true);
+            console.warn("No se pudo activar la vista continua:", error);
+        }
     }
 
     function loadFrame(frame, force = false) {
         const source = frame.dataset.src;
         if (!source || (!force && frame.dataset.loaded === "true")) return;
+
+        frame._sec29Cleanup?.();
         setFrameStatus(frame, false);
         frame.dataset.loaded = "true";
         frame.src = force
@@ -227,7 +404,7 @@
 
     function initializeExternalFrames() {
         document.querySelectorAll("[data-external-frame]").forEach((frame) => {
-            frame.addEventListener("load", () => setFrameStatus(frame, true));
+            frame.addEventListener("load", () => integrateFrame(frame));
         });
 
         document.querySelectorAll("[data-frame-reload]").forEach((button) => {
@@ -244,7 +421,7 @@
     }
 
     function initializeNavigation() {
-        prepareV6Shell();
+        prepareV61Shell();
         initializeExternalFrames();
 
         const body = document.body;

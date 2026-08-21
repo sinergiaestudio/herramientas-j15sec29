@@ -1,11 +1,11 @@
 # Herramientas SEC29
 
-Aplicación web modular para tareas operativas del Juzgado N.º 15, Secretaría N.º 29. La versión 6.0 reúne cuatro accesos principales dentro de un menú lateral que siempre comienza completamente minimizado:
+Aplicación web modular para tareas operativas del Juzgado N.º 15, Secretaría N.º 29. La versión 6.1 reúne cuatro accesos principales dentro de un menú lateral que siempre comienza completamente minimizado:
 
 1. **Actuaciones y vencimientos:** procesa exportaciones del EJE y genera listados listos para WhatsApp.
 2. **Creador de actuaciones en lote:** instala un marcador que carga expedientes secuencialmente en la pantalla Crear actuación de EJE.
-3. **Creador de Lotes - Cédulas:** integra Cédulas EJE, que analiza PDFs de confronte, identifica las piezas remitidas a la Oficina de Notificaciones y asiste su incorporación en Crear lote.
-4. **Confronte de Liquidaciones EJF:** integra la aplicación de comparación documental, revisión de lectura y recálculo trazable de intereses.
+3. **Creador de Lotes - Cédulas:** analiza PDFs de confronte, identifica las piezas remitidas a la Oficina de Notificaciones y asiste su incorporación en Crear lote.
+4. **Confronte de Liquidaciones EJF:** compara documentación, permite revisar la lectura y recalcula intereses con trazabilidad.
 
 ## Navegación modular
 
@@ -18,16 +18,20 @@ Aplicación web modular para tareas operativas del Juzgado N.º 15, Secretaría 
 
 La ruta histórica `#cargador-eje` continúa funcionando y redirige internamente a `#actuaciones-lote`.
 
-El menú lateral comienza oculto en escritorio, tablet y teléfono. Se abre con el botón de la cabecera y vuelve a cerrarse al seleccionar un módulo, hacer clic fuera del panel o presionar `Escape`.
+## Integración continua
 
-## Integración de aplicaciones especializadas
+Cédulas EJE y Confronte de Liquidaciones EJF conservan sus repositorios y motores especializados, pero su presentación dentro de la suite ya no funciona como una ventana con desplazamiento independiente.
 
-Cédulas EJE y Confronte de Liquidaciones EJF permanecen como aplicaciones independientes, con sus propios ciclos de desarrollo y pruebas. Herramientas SEC29 las abre dentro de un marco integrado y también ofrece el acceso “Abrir aparte”. Esta arquitectura evita duplicar código complejo y permite que las actualizaciones de cada aplicación se reflejen sin reconstruir toda la suite.
+La versión 6.1:
 
-Aplicaciones integradas:
+- elimina el marco visual duplicado;
+- oculta las cabeceras internas redundantes;
+- ajusta automáticamente la altura de cada aplicación;
+- traslada la rueda del mouse, el gesto vertical y las teclas de navegación al desplazamiento de la página principal;
+- mantiene los botones `Recargar` y `Abrir aparte` en una barra discreta;
+- conserva la carga diferida para no ralentizar los demás módulos.
 
-- `https://sinergiaestudio.github.io/Cedulas-EJE-v1.0/`
-- `https://sinergiaestudio.github.io/Confronte-Liquidaciones-EJF-v2.1.0/`
+Como las aplicaciones públicas se alojan bajo el mismo origen de GitHub Pages, la suite puede armonizar su presentación sin copiar ni duplicar sus motores de PDF, OCR o cálculo.
 
 ## Regla de numeración
 
@@ -61,8 +65,6 @@ https://sinergiaestudio.github.io/herramientas-j15sec29/
 ```bash
 npm test
 ```
-
-Las pruebas verifican formatos de actuaciones y vencimientos, integridad del marcador, navegación accesible, alias de rutas e integración diferida de las aplicaciones externas.
 
 ## Autoría
 
