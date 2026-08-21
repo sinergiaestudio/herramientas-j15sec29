@@ -1,10 +1,18 @@
-const CACHE_NAME = "sec29-tools-v4.0.0";
+const CACHE_NAME = "sec29-tools-v5.1.0";
 const APP_SHELL = [
     "./",
     "./index.html",
     "./assets/css/styles.css",
+    "./assets/css/styles-v5a.css",
+    "./assets/css/styles-v5b.css",
     "./assets/js/processors.js",
+    "./assets/js/cargador-eje-part1.js",
+    "./assets/js/cargador-eje-part2.js",
+    "./assets/js/cargador-eje-part3.js",
+    "./assets/js/cargador-eje-source.js",
     "./assets/js/app.js",
+    "./assets/js/cargador-eje.js",
+    "./assets/js/navigation.js",
     "./favicon.svg",
     "./manifest.webmanifest",
     "./assets/icons/icon-192.png",
@@ -30,6 +38,7 @@ self.addEventListener("fetch", (event) => {
 
     const requestUrl = new URL(event.request.url);
     const isSheetJs =
+        requestUrl.hostname === "cdn.sheetjs.com" ||
         requestUrl.hostname === "cdn.jsdelivr.net" ||
         requestUrl.hostname === "cdnjs.cloudflare.com";
 

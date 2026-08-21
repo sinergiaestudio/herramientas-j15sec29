@@ -1,323 +1,63 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#821529">
-    <meta name="description" content="Procesador local de actuaciones y vencimientos judiciales para WhatsApp.">
-    <title>Herramientas SEC29 · Actuaciones y Vencimientos</title>
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-    <link rel="manifest" href="./manifest.webmanifest">
-    <link rel="stylesheet" href="./assets/css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#821529">
+<meta name="description" content="Suite local de herramientas para actuaciones, vencimientos y automatización operativa en EJE.">
+<title>Herramientas SEC29</title>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="stylesheet" href="./assets/css/styles.css">
+<link rel="stylesheet" href="./assets/css/styles-v5a.css">
+<link rel="stylesheet" href="./assets/css/styles-v5b.css">
 </head>
 <body>
-    <header class="site-header">
-        <div class="site-header__inner">
-            <a class="brand" href="./" aria-label="Inicio de Herramientas SEC29">
-                <span class="brand__mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 3v18"></path>
-                        <path d="M6 6h12"></path>
-                        <path d="m6 6-3 6h6L6 6Z"></path>
-                        <path d="m18 6-3 6h6l-3-6Z"></path>
-                        <path d="M8 21h8"></path>
-                    </svg>
-                </span>
-                <span class="brand__copy">
-                    <strong>Juzgado N.º 15 · Secretaría N.º 29</strong>
-                    <small>Biblioteca de Mero Trámite · Herramientas internas</small>
-                </span>
-            </a>
-
-            <div class="site-header__meta" aria-label="Información de la aplicación">
-                <span>Gestión judicial</span>
-                <span class="site-header__version">v4.0</span>
-            </div>
-        </div>
-    </header>
-
-    <main class="app-shell">
-        <section class="hero" aria-labelledby="page-title">
-            <div>
-                <p class="hero__eyebrow">Procesamiento documental</p>
-                <h1 id="page-title">Actuaciones y vencimientos listos para WhatsApp</h1>
-                <p class="hero__lead">
-                    Una única herramienta para transformar las exportaciones del EJE en listados limpios,
-                    consistentes y listos para copiar. Cada procesador conserva su formato judicial habitual.
-                </p>
-            </div>
-
-            <div class="privacy-chip">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M12 3 5 6v5c0 4.7 2.8 8.3 7 10 4.2-1.7 7-5.3 7-10V6l-7-3Z"></path>
-                    <path d="m9.5 12 1.7 1.7 3.6-4"></path>
-                </svg>
-                <span>Procesamiento local: los archivos no se envían, almacenan ni comparten con ningún servidor.</span>
-            </div>
-        </section>
-
-        <section class="tools-grid" aria-label="Procesadores disponibles">
-            <article class="tool-card" data-processor="actuaciones" data-state="idle">
-                <header class="tool-card__header">
-                    <div class="tool-card__identity">
-                        <span class="tool-card__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 3h8l4 4v14H6z"></path>
-                                <path d="M14 3v5h5"></path>
-                                <path d="M9 13h6"></path>
-                                <path d="M9 17h6"></path>
-                            </svg>
-                        </span>
-                        <div>
-                            <h2 class="tool-card__title">Procesador de actuaciones</h2>
-                            <p class="tool-card__subtitle">Lee exportaciones de actuaciones y limpia automáticamente título, carátula y número de expediente.</p>
-                        </div>
-                    </div>
-                    <span class="tool-card__tag">CSV · XLSX · XLS</span>
-                </header>
-
-                <div class="tool-card__body">
-                    <div class="section-label">
-                        <span class="section-label__title">1. Cargar archivo</span>
-                        <span class="section-label__hint">Exportación de actuaciones</span>
-                    </div>
-
-                    <div class="drop-zone" data-drop-zone tabindex="0" role="button" aria-label="Cargar archivo de actuaciones">
-                        <input class="file-input" data-file-input type="file" accept=".csv,.xlsx,.xls">
-                        <div class="drop-zone__content">
-                            <span class="drop-zone__icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 16V4"></path>
-                                    <path d="m7 9 5-5 5 5"></path>
-                                    <path d="M5 20h14"></path>
-                                </svg>
-                            </span>
-                            <strong>Arrastrá el archivo hasta aquí</strong>
-                            <p>También podés seleccionarlo desde tu equipo. Se procesará únicamente en este navegador.</p>
-                            <button class="file-select-button" data-select-file type="button">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M4 7h6l2 2h8v10H4z"></path>
-                                    <path d="M4 7V5h6l2 2"></path>
-                                </svg>
-                                Seleccionar archivo
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="file-info" data-file-info hidden>
-                        <span class="file-info__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 3h8l4 4v14H6z"></path>
-                                <path d="M14 3v5h5"></path>
-                            </svg>
-                        </span>
-                        <span class="file-info__copy">
-                            <span class="file-info__name" data-file-name></span>
-                            <span class="file-info__meta" data-file-meta></span>
-                        </span>
-                    </div>
-
-                    <div class="result-block">
-                        <div class="section-label">
-                            <span class="section-label__title">2. Resultado</span>
-                            <span class="section-label__hint">Formato WhatsApp</span>
-                        </div>
-
-                        <div class="result-shell">
-                            <div class="result-shell__bar">
-                                <span class="result-shell__title">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <path d="M8 5h11v14H8z"></path>
-                                        <path d="M5 8H3v11h11v-2"></path>
-                                    </svg>
-                                    Texto listo para copiar
-                                </span>
-                                <span class="result-count" data-result-count>0 resultados</span>
-                            </div>
-                            <textarea class="result-output" data-output readonly spellcheck="false" placeholder="El listado de actuaciones aparecerá aquí."></textarea>
-                        </div>
-
-                        <div class="status-message" data-status data-type="neutral" role="status" aria-live="polite"></div>
-
-                        <div class="actions">
-                            <button class="button button--primary" data-copy type="button" disabled>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <rect x="9" y="9" width="11" height="11" rx="2"></rect>
-                                    <path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"></path>
-                                </svg>
-                                Copiar al portapapeles
-                            </button>
-                            <button class="button button--secondary" data-download type="button" disabled>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M12 3v12"></path>
-                                    <path d="m7 10 5 5 5-5"></path>
-                                    <path d="M5 21h14"></path>
-                                </svg>
-                                Descargar TXT
-                            </button>
-                            <button class="button button--ghost" data-clear type="button">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M4 7h16"></path>
-                                    <path d="M9 7V4h6v3"></path>
-                                    <path d="m8 11 1 8h6l1-8"></path>
-                                </svg>
-                                Limpiar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="tool-card" data-processor="vencimientos" data-state="idle">
-                <header class="tool-card__header">
-                    <div class="tool-card__identity">
-                        <span class="tool-card__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 3v3"></path>
-                                <path d="M18 3v3"></path>
-                                <path d="M4 8h16"></path>
-                                <rect x="4" y="5" width="16" height="15" rx="2"></rect>
-                                <path d="M12 12v4l2.5 1.5"></path>
-                            </svg>
-                        </span>
-                        <div>
-                            <h2 class="tool-card__title">Procesador de vencimientos</h2>
-                            <p class="tool-card__subtitle">Detecta las columnas del reporte de agenda, descarta las filas genéricas “VTO” y conserva solo los vencimientos útiles.</p>
-                        </div>
-                    </div>
-                    <span class="tool-card__tag">XLSX · XLS</span>
-                </header>
-
-                <div class="tool-card__body">
-                    <div class="section-label">
-                        <span class="section-label__title">1. Cargar archivo</span>
-                        <span class="section-label__hint">Reporte de agenda</span>
-                    </div>
-
-                    <div class="drop-zone" data-drop-zone tabindex="0" role="button" aria-label="Cargar archivo de vencimientos">
-                        <input class="file-input" data-file-input type="file" accept=".xlsx,.xls">
-                        <div class="drop-zone__content">
-                            <span class="drop-zone__icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 16V4"></path>
-                                    <path d="m7 9 5-5 5 5"></path>
-                                    <path d="M5 20h14"></path>
-                                </svg>
-                            </span>
-                            <strong>Arrastrá el archivo hasta aquí</strong>
-                            <p>La herramienta encuentra Carátula, Número de expediente y Descripción aunque cambien de posición.</p>
-                            <button class="file-select-button" data-select-file type="button">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M4 7h6l2 2h8v10H4z"></path>
-                                    <path d="M4 7V5h6l2 2"></path>
-                                </svg>
-                                Seleccionar archivo
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="file-info" data-file-info hidden>
-                        <span class="file-info__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 3h8l4 4v14H6z"></path>
-                                <path d="M14 3v5h5"></path>
-                            </svg>
-                        </span>
-                        <span class="file-info__copy">
-                            <span class="file-info__name" data-file-name></span>
-                            <span class="file-info__meta" data-file-meta></span>
-                        </span>
-                    </div>
-
-                    <div class="result-block">
-                        <div class="section-label">
-                            <span class="section-label__title">2. Resultado</span>
-                            <span class="section-label__hint">Formato WhatsApp</span>
-                        </div>
-
-                        <div class="result-shell">
-                            <div class="result-shell__bar">
-                                <span class="result-shell__title">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <path d="M8 5h11v14H8z"></path>
-                                        <path d="M5 8H3v11h11v-2"></path>
-                                    </svg>
-                                    Texto listo para copiar
-                                </span>
-                                <span class="result-count" data-result-count>0 resultados</span>
-                            </div>
-                            <textarea class="result-output" data-output readonly spellcheck="false" placeholder="El listado de vencimientos aparecerá aquí."></textarea>
-                        </div>
-
-                        <div class="status-message" data-status data-type="neutral" role="status" aria-live="polite"></div>
-
-                        <div class="actions">
-                            <button class="button button--primary" data-copy type="button" disabled>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <rect x="9" y="9" width="11" height="11" rx="2"></rect>
-                                    <path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"></path>
-                                </svg>
-                                Copiar al portapapeles
-                            </button>
-                            <button class="button button--secondary" data-download type="button" disabled>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M12 3v12"></path>
-                                    <path d="m7 10 5 5 5-5"></path>
-                                    <path d="M5 21h14"></path>
-                                </svg>
-                                Descargar TXT
-                            </button>
-                            <button class="button button--ghost" data-clear type="button">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M4 7h16"></path>
-                                    <path d="M9 7V4h6v3"></path>
-                                    <path d="m8 11 1 8h6l1-8"></path>
-                                </svg>
-                                Limpiar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-
-        <section class="guidance" aria-label="Información de uso">
-            <div class="guidance__card">
-                <h2 class="guidance__title">Flujo de trabajo</h2>
-                <ol class="guidance__list">
-                    <li class="guidance__item"><span class="guidance__number">1</span><span>Elegí el procesador y cargá la exportación correspondiente.</span></li>
-                    <li class="guidance__item"><span class="guidance__number">2</span><span>Revisá el resultado y la cantidad de filas procesadas u omitidas.</span></li>
-                    <li class="guidance__item"><span class="guidance__number">3</span><span>Copiá el texto o descargalo como TXT para compartirlo.</span></li>
-                </ol>
-            </div>
-
-            <div class="guidance__card">
-                <h2 class="guidance__title">Criterio de numeración</h2>
-                <div class="guidance__note">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M12 3 2.8 19h18.4L12 3Z"></path>
-                        <path d="M12 9v4"></path>
-                        <path d="M12 17h.01"></path>
-                    </svg>
-                    <span>Cuando el archivo produce un único resultado, la salida comienza directamente con la carátula. La numeración “1), 2), 3)” solo aparece cuando existen dos o más actuaciones o vencimientos.</span>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <span>Diseño y desarrollo: <a href="https://github.com/sinergiaestudio" target="_blank" rel="noreferrer">Marcelo Gómez</a> · innovación aplicada a la gestión judicial.</span>
-        <span>Herramienta de apoyo interno · sin almacenamiento de documentos.</span>
-    </footer>
-
-    <div class="toast" id="toast" data-type="success" role="status" aria-live="polite" hidden>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="m5 12 4 4L19 6"></path>
-        </svg>
-        <span data-toast-message></span>
-    </div>
-
-    <script src="./assets/js/processors.js"></script>
-    <script src="./assets/js/app.js"></script>
-</body>
-</html>
+<header class="site-header"><div class="site-header__inner">
+<div class="site-header__left"><button class="menu-toggle" type="button" data-sidebar-toggle aria-label="Abrir menú de herramientas" aria-controls="app-sidebar" aria-expanded="false"><span aria-hidden="true">☰</span></button><a class="brand" href="#procesadores"><span class="brand__mark" aria-hidden="true">⚖</span><span class="brand__copy"><strong>Juzgado N.º 15 · Secretaría N.º 29</strong><small>Biblioteca de Mero Trámite · Herramientas internas</small></span></a></div>
+<div class="site-header__meta"><span data-current-module>Actuaciones y vencimientos</span><span class="site-header__version">v5.1</span></div>
+</div></header>
+<div class="workspace">
+<aside class="sidebar" id="app-sidebar" aria-label="Menú de herramientas" aria-hidden="true" inert>
+<div class="sidebar__heading"><span class="sidebar__heading-icon" aria-hidden="true">▦</span><span class="sidebar__heading-copy"><strong>Herramientas SEC29</strong><small>Acceso por módulos</small></span></div>
+<nav class="sidebar__nav">
+<div class="sidebar__group"><p class="sidebar__group-label">Mensajería y reportes</p><a class="nav-item is-active" href="#procesadores" data-route="procesadores" aria-current="page"><span class="nav-item__icon" aria-hidden="true">▤</span><span class="nav-item__copy"><strong>Actuaciones y vencimientos</strong><small>Listados para WhatsApp</small></span><span class="nav-item__badge">2</span></a></div>
+<div class="sidebar__group"><p class="sidebar__group-label">Automatización EJE</p><a class="nav-item" href="#cargador-eje" data-route="cargador-eje"><span class="nav-item__icon" aria-hidden="true">⇩</span><span class="nav-item__copy"><strong>Cargador EJE</strong><small>Carga masiva sin instalación</small></span><span class="nav-item__badge nav-item__badge--new">Nuevo</span></a></div>
+</nav>
+<div class="sidebar__footer"><span class="sidebar__footer-icon" aria-hidden="true">✓</span><span class="sidebar__footer-copy"><strong>Procesamiento local</strong><small>Sin almacenamiento de archivos ni credenciales.</small></span></div>
+</aside>
+<button class="sidebar-backdrop" type="button" data-sidebar-close aria-label="Cerrar menú" tabindex="-1"></button>
+<div class="workspace__content"><main class="app-shell">
+<section class="app-view" data-view="procesadores">
+<section class="hero"><div><p class="hero__eyebrow">Procesamiento documental</p><h1>Actuaciones y vencimientos listos para WhatsApp</h1><p class="hero__lead">Transforma las exportaciones del EJE en listados limpios y conserva el formato judicial habitual.</p></div><div class="privacy-chip"><span aria-hidden="true">🔒</span><span>Procesamiento local: los archivos no se envían ni almacenan.</span></div></section>
+<section class="tools-grid" aria-label="Procesadores disponibles">
+<article class="tool-card" data-processor="actuaciones" data-state="idle">
+<header class="tool-card__header"><div class="tool-card__identity"><span class="tool-card__icon" aria-hidden="true">▤</span><div><h2 class="tool-card__title">Procesador de actuaciones</h2><p class="tool-card__subtitle">Extrae carátula, expediente y título; elimina “escrit normal-”.</p></div></div><span class="tool-card__tag">CSV · XLSX · XLS</span></header>
+<div class="tool-card__body"><div class="section-label"><span class="section-label__title">1. Cargar archivo</span><span class="section-label__hint">Exportación de actuaciones</span></div>
+<div class="drop-zone" data-drop-zone tabindex="0" role="button" aria-label="Cargar archivo de actuaciones"><input class="file-input" data-file-input type="file" accept=".csv,.xlsx,.xls"><div class="drop-zone__content"><span class="drop-zone__icon" aria-hidden="true">⇧</span><strong>Arrastrá el archivo hasta aquí</strong><p>También podés seleccionarlo desde tu equipo.</p><button class="file-select-button" data-select-file type="button">📁 Seleccionar archivo</button></div></div>
+<div class="file-info" data-file-info hidden><span class="file-info__icon" aria-hidden="true">▤</span><span class="file-info__copy"><span class="file-info__name" data-file-name></span><span class="file-info__meta" data-file-meta></span></span></div>
+<div class="result-block"><div class="section-label"><span class="section-label__title">2. Resultado</span><span class="section-label__hint">Formato WhatsApp</span></div><div class="result-shell"><div class="result-shell__bar"><span class="result-shell__title">Texto listo para copiar</span><span class="result-count" data-result-count>0 resultados</span></div><textarea class="result-output" data-output readonly spellcheck="false" placeholder="El listado aparecerá aquí."></textarea></div><div class="status-message" data-status data-type="neutral" role="status" aria-live="polite"></div><div class="actions"><button class="button button--primary" data-copy type="button" disabled>📋 Copiar</button><button class="button button--secondary" data-download type="button" disabled>⇩ Descargar TXT</button><button class="button button--ghost" data-clear type="button">Limpiar</button></div></div></div>
+</article>
+<article class="tool-card" data-processor="vencimientos" data-state="idle">
+<header class="tool-card__header"><div class="tool-card__identity"><span class="tool-card__icon" aria-hidden="true">◷</span><div><h2 class="tool-card__title">Procesador de vencimientos</h2><p class="tool-card__subtitle">Detecta las columnas del reporte y descarta las filas genéricas “VTO”.</p></div></div><span class="tool-card__tag">XLSX · XLS</span></header>
+<div class="tool-card__body"><div class="section-label"><span class="section-label__title">1. Cargar archivo</span><span class="section-label__hint">Reporte de agenda</span></div>
+<div class="drop-zone" data-drop-zone tabindex="0" role="button" aria-label="Cargar archivo de vencimientos"><input class="file-input" data-file-input type="file" accept=".xlsx,.xls"><div class="drop-zone__content"><span class="drop-zone__icon" aria-hidden="true">⇧</span><strong>Arrastrá el archivo hasta aquí</strong><p>Encuentra carátula, expediente y descripción aunque cambien de posición.</p><button class="file-select-button" data-select-file type="button">📁 Seleccionar archivo</button></div></div>
+<div class="file-info" data-file-info hidden><span class="file-info__icon" aria-hidden="true">▤</span><span class="file-info__copy"><span class="file-info__name" data-file-name></span><span class="file-info__meta" data-file-meta></span></span></div>
+<div class="result-block"><div class="section-label"><span class="section-label__title">2. Resultado</span><span class="section-label__hint">Formato WhatsApp</span></div><div class="result-shell"><div class="result-shell__bar"><span class="result-shell__title">Texto listo para copiar</span><span class="result-count" data-result-count>0 resultados</span></div><textarea class="result-output" data-output readonly spellcheck="false" placeholder="El listado aparecerá aquí."></textarea></div><div class="status-message" data-status data-type="neutral" role="status" aria-live="polite"></div><div class="actions"><button class="button button--primary" data-copy type="button" disabled>📋 Copiar</button><button class="button button--secondary" data-download type="button" disabled>⇩ Descargar TXT</button><button class="button button--ghost" data-clear type="button">Limpiar</button></div></div></div>
+</article>
+</section>
+</section>
+<section class="app-view" data-view="cargador-eje" hidden aria-hidden="true">
+<section class="hero"><div><p class="hero__eyebrow">Automatización operativa</p><h1>Cargador EJE sin instalación</h1><p class="hero__lead">Convierte una lista de expedientes en una carga secuencial sobre una sesión autenticada de EJE.</p></div><div class="privacy-chip"><span aria-hidden="true">🔒</span><span>Opera en la pestaña abierta; no guarda credenciales ni expedientes.</span></div></section>
+<section class="eje-layout"><article class="module-card"><header class="module-card__header"><div class="module-card__identity"><span class="module-card__icon" aria-hidden="true">⇩</span><div><p class="module-card__eyebrow">Paso 1</p><h2>Instalá el marcador</h2></div></div><span class="module-card__tag">Chrome</span></header><div class="module-card__body"><p class="module-copy">Mostrá la barra de marcadores con <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> y arrastrá el botón.</p><div class="bookmarklet-zone"><span class="bookmarklet-zone__label">Arrastrar a la barra</span><a id="ejeBookmarklet" class="eje-bookmarklet" href="#">⇩ Cargador EJE</a><p>No lo abras desde esta página: debe ejecutarse dentro de EJE.</p></div><div class="actions eje-actions"><button id="copyEjeBookmarklet" class="button button--primary" type="button">📋 Copiar dirección</button><button id="copyEjeSource" class="button button--secondary" type="button">&lt;/&gt; Copiar código</button></div><div id="ejeNotice" class="inline-notice" role="status" aria-live="polite" hidden></div><div class="security-panel"><span class="security-panel__icon" aria-hidden="true">✓</span><span><strong>Funcionamiento local</strong> Solo completa el campo visible y simula Enter.</span></div></div></article>
+<aside class="module-card"><header class="module-card__header module-card__header--simple"><div class="module-card__identity"><span class="module-card__icon module-card__icon--neutral" aria-hidden="true">1·2·3</span><div><p class="module-card__eyebrow">Paso 2</p><h2>Usalo en EJE</h2></div></div></header><div class="module-card__body"><ol class="eje-steps"><li>Copiá en Excel las celdas con los números de expediente.</li><li>Abrí <strong>Crear actuación</strong> y dejá visible el campo Expediente.</li><li>Presioná el marcador, pegá la lista y revisá la validación.</li><li>Comenzá con una prueba inicial de cinco expedientes.</li></ol><div class="warning-panel"><span aria-hidden="true">⚠</span><span>La carga se detiene si EJE no vacía el campo o cambia la pantalla.</span></div><p class="module-footnote">Al finalizar puede descargarse un CSV con el resultado de cada intento.</p></div></aside></section>
+<p class="module-disclaimer">No crea actuaciones, no selecciona modelos y no confirma decisiones: solo carga números de expediente en la pantalla actual.</p>
+</section>
+</main>
+<footer class="site-footer"><span>Diseño y desarrollo: <a href="https://github.com/sinergiaestudio" target="_blank" rel="noreferrer">Marcelo Gómez</a> · innovación aplicada a la gestión judicial.</span><span>Herramienta de apoyo interno · sin almacenamiento de documentos.</span></footer>
+</div></div>
+<div class="toast" id="toast" data-type="success" role="status" aria-live="polite" hidden><span data-toast-message></span></div>
+<script src="./assets/js/processors.js"></script>
+<script src="./assets/js/cargador-eje-part1.js"></script><script src="./assets/js/cargador-eje-part2.js"></script><script src="./assets/js/cargador-eje-part3.js"></script><script src="./assets/js/cargador-eje-source.js"></script>
+<script src="./assets/js/app.js"></script><script src="./assets/js/cargador-eje.js"></script><script src="./assets/js/navigation.js"></script>
+</body></html>

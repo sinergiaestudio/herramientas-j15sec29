@@ -1,8 +1,8 @@
 {
   "name": "herramientas-sec29",
-  "version": "4.0.0",
+  "version": "5.1.0",
   "private": true,
-  "description": "Procesadores locales de actuaciones y vencimientos judiciales para WhatsApp.",
+  "description": "Suite local de herramientas para actuaciones, vencimientos y automatización operativa en EJE.",
   "scripts": {
     "test": "node --test tests/*.test.js"
   },

@@ -1,9 +1,9 @@
 {
   "name": "Herramientas SEC29",
   "short_name": "SEC29",
-  "description": "Procesador local de actuaciones y vencimientos judiciales para WhatsApp.",
+  "description": "Suite local de herramientas para actuaciones, vencimientos y automatización operativa en EJE.",
   "lang": "es-AR",
-  "start_url": "./",
+  "start_url": "./#procesadores",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f4f5f7",
