@@ -1,0 +1,12 @@
+{
+  "name": "herramientas-sec29",
+  "version": "4.0.0",
+  "private": true,
+  "description": "Procesadores locales de actuaciones y vencimientos judiciales para WhatsApp.",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
