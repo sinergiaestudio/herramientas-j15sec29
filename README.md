@@ -1,28 +1,38 @@
 # Herramientas SEC29
 
-Aplicación web modular para tareas operativas del Juzgado N.º 15, Secretaría N.º 29. La versión 5.1 incorpora un menú lateral completamente minimizado al iniciar y reúne tres utilidades dentro de una misma página:
+Aplicación web modular para tareas operativas del Juzgado N.º 15, Secretaría N.º 29. La versión 6.0 reúne cuatro accesos principales dentro de un menú lateral que siempre comienza completamente minimizado:
 
-1. **Procesador de actuaciones:** lee archivos `.csv`, `.xlsx` o `.xls`, obtiene Carátula, Número de expediente y Título, elimina el prefijo `escrit normal-` y convierte el título a minúsculas.
-2. **Procesador de vencimientos:** lee archivos `.xlsx` o `.xls`, detecta Carátula, Número de expediente y Descripción aunque las columnas cambien de posición, y descarta las filas cuya descripción sea únicamente `VTO`.
-3. **Cargador EJE:** genera un marcador de Chrome que, dentro de una sesión ya autenticada de EJE, valida una lista de expedientes, completa secuencialmente el campo visible y deja un registro CSV de la operación.
+1. **Actuaciones y vencimientos:** procesa exportaciones del EJE y genera listados listos para WhatsApp.
+2. **Creador de actuaciones en lote:** instala un marcador que carga expedientes secuencialmente en la pantalla Crear actuación de EJE.
+3. **Creador de Lotes - Cédulas:** integra Cédulas EJE, que analiza PDFs de confronte, identifica las piezas remitidas a la Oficina de Notificaciones y asiste su incorporación en Crear lote.
+4. **Confronte de Liquidaciones EJF:** integra la aplicación de comparación documental, revisión de lectura y recálculo trazable de intereses.
 
 ## Navegación modular
 
-La interfaz utiliza rutas por hash, por lo que cada módulo puede abrirse y compartirse sin servidor de aplicaciones:
-
 ```text
 #procesadores
-#cargador-eje
+#actuaciones-lote
+#lotes-cedulas
+#confronte-liquidaciones
 ```
 
-El menú lateral comienza completamente oculto en todas las pantallas. El botón de la cabecera despliega las opciones como un panel lateral y, al elegir un módulo o hacer clic fuera del panel, vuelve a minimizarse. La estructura queda preparada para incorporar nuevas herramientas sin mezclar sus interfaces ni sus lógicas.
+La ruta histórica `#cargador-eje` continúa funcionando y redirige internamente a `#actuaciones-lote`.
+
+El menú lateral comienza oculto en escritorio, tablet y teléfono. Se abre con el botón de la cabecera y vuelve a cerrarse al seleccionar un módulo, hacer clic fuera del panel o presionar `Escape`.
+
+## Integración de aplicaciones especializadas
+
+Cédulas EJE y Confronte de Liquidaciones EJF permanecen como aplicaciones independientes, con sus propios ciclos de desarrollo y pruebas. Herramientas SEC29 las abre dentro de un marco integrado y también ofrece el acceso “Abrir aparte”. Esta arquitectura evita duplicar código complejo y permite que las actualizaciones de cada aplicación se reflejen sin reconstruir toda la suite.
+
+Aplicaciones integradas:
+
+- `https://sinergiaestudio.github.io/Cedulas-EJE-v1.0/`
+- `https://sinergiaestudio.github.io/Confronte-Liquidaciones-EJF-v2.1.0/`
 
 ## Regla de numeración
 
 - Un único resultado se exporta **sin** `1)`.
 - Dos o más resultados se exportan como `1)`, `2)`, `3)`, etc.
-
-Los formatos de salida se mantienen separados:
 
 ```text
 *CARÁTULA - Expte. Nro 12345/2026-0* (título de la actuación)
@@ -34,29 +44,13 @@ Los formatos de salida se mantienen separados:
 
 ## Privacidad y alcance
 
-Todo el procesamiento de planillas ocurre dentro del navegador. Los archivos seleccionados:
+Las planillas y PDFs se procesan en el navegador. No se incorporan a este repositorio ni se almacenan en la suite. Los marcadores operan sobre sesiones ya autenticadas de EJE y no guardan credenciales.
 
-- no se suben a un servidor;
-- no se almacenan;
-- no se envían a terceros;
-- no quedan registrados en la aplicación.
+La creación de actuaciones, lotes y decisiones definitivas permanece bajo control humano. Estas herramientas son desarrollos de asistencia interna y no constituyen sistemas oficiales del Consejo de la Magistratura de la Ciudad Autónoma de Buenos Aires.
 
-El Cargador EJE tampoco almacena credenciales ni transmite expedientes. El marcador trabaja sobre la página que el usuario ya tiene abierta y autenticada, localiza el campo visible de expediente, completa el valor y simula Enter. No crea actuaciones, no selecciona modelos y no confirma decisiones.
+## Publicación
 
-La aplicación utiliza SheetJS Community Edition 0.20.3 desde su CDN oficial únicamente para leer archivos de Excel. Como respaldo, intenta la etiqueta estable `latest` del mismo origen oficial. El contenido de las planillas permanece en el equipo del usuario.
-
-## Publicación en GitHub Pages
-
-Repositorio publicado: `sinergiaestudio/herramientas-j15sec29`.
-
-1. Crear un repositorio público en GitHub.
-2. Subir **todo el contenido** de esta carpeta, conservando la estructura.
-3. Abrir `Settings` → `Pages`.
-4. En `Build and deployment`, elegir `Deploy from a branch`.
-5. Seleccionar la rama `main` y la carpeta `/docs`.
-6. Guardar.
-
-Para la cuenta `sinergiaestudio`, la dirección esperada será:
+GitHub Pages publica la carpeta `/docs` de la rama `main`:
 
 ```text
 https://sinergiaestudio.github.io/herramientas-j15sec29/
@@ -68,42 +62,10 @@ https://sinergiaestudio.github.io/herramientas-j15sec29/
 npm test
 ```
 
-Las pruebas verifican:
-
-- numeración de actuaciones y vencimientos;
-- limpieza de `escrit normal-`;
-- detección automática de encabezados;
-- exclusión de descripciones `VTO`;
-- conservación de `Nro` y `N°`;
-- integridad y codificación reversible del Cargador EJE;
-- apertura, cierre y estado accesible del menú lateral.
-
-## Estructura
-
-```text
-.
-├── docs/
-│   ├── index.html
-│   ├── assets/
-│   │   ├── css/styles.css
-│   │   ├── js/app.js
-│   │   ├── js/processors.js
-│   │   ├── js/navigation.js
-│   │   ├── js/cargador-eje.js
-│   │   ├── js/cargador-eje-source.js
-│   │   └── icons/
-│   ├── manifest.webmanifest
-│   └── sw.js
-├── tests/
-├── .github/workflows/
-├── package.json
-└── README.md
-```
+Las pruebas verifican formatos de actuaciones y vencimientos, integridad del marcador, navegación accesible, alias de rutas e integración diferida de las aplicaciones externas.
 
 ## Autoría
 
 Diseño y desarrollo: **Marcelo Gómez**  
 Juzgado N.º 15 · Secretaría N.º 29  
 Biblioteca de Mero Trámite · innovación aplicada a la gestión judicial.
-
-La herramienta es un desarrollo de apoyo interno y no constituye un sistema oficial del Consejo de la Magistratura de la Ciudad Autónoma de Buenos Aires.

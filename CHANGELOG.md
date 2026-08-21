@@ -1,5 +1,15 @@
 # Historial de cambios
 
+## 6.0.0 — 2026-08-21
+
+- Se renombra **Cargador EJE** como **Creador de actuaciones en lote**.
+- Se incorpora **Creador de Lotes - Cédulas** como módulo del menú lateral.
+- Se incorpora **Confronte de Liquidaciones EJF** como módulo del menú lateral.
+- Las aplicaciones especializadas se cargan de manera diferida dentro de marcos integrados y mantienen un acceso directo en pestaña independiente.
+- Se preserva `#cargador-eje` como alias retrocompatible de `#actuaciones-lote`.
+- El menú continúa completamente minimizado en cada apertura.
+- Se actualizan diseño, documentación, caché offline y pruebas.
+
 ## 5.1.0 — 2026-08-21
 
 - El menú lateral inicia completamente minimizado en cada carga.

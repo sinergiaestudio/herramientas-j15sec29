@@ -7,7 +7,12 @@
         require("./cargador-eje-part3.js");
     }
 
-    const source = (root.SEC29EJESourceParts || []).join("");
+    const originalSource = (root.SEC29EJESourceParts || []).join("");
+    const source = originalSource
+        .replaceAll("El Cargador EJE ya está abierto", "El Creador de actuaciones en lote ya está abierto")
+        .replaceAll("Cargador masivo de expedientes", "Creador de actuaciones en lote")
+        .replaceAll("Cargador EJE", "Creador de actuaciones en lote");
+
     const api = Object.freeze({
         source,
         toBookmarklet() {

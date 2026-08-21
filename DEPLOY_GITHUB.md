@@ -24,7 +24,7 @@ https://sinergiaestudio.github.io/herramientas-j15sec29/
 
 1. Descomprimir el nuevo paquete.
 2. En el repositorio, reemplazar el contenido anterior por el de esta versión, conservando la estructura de carpetas.
-3. Confirmar la actualización con un commit, por ejemplo: `Actualiza Herramientas SEC29 a v5.1`.
+3. Confirmar la actualización con un commit, por ejemplo: `Actualiza Herramientas SEC29 a v6.0`.
 4. GitHub Pages volverá a publicar automáticamente la carpeta `/docs`.
 5. Debido al modo instalable y al service worker, en la primera apertura posterior a la actualización puede ser necesario recargar la página con `Ctrl + F5`.
 
@@ -32,9 +32,11 @@ https://sinergiaestudio.github.io/herramientas-j15sec29/
 
 ```text
 https://sinergiaestudio.github.io/herramientas-j15sec29/#procesadores
-https://sinergiaestudio.github.io/herramientas-j15sec29/#cargador-eje
+https://sinergiaestudio.github.io/herramientas-j15sec29/#actuaciones-lote
+https://sinergiaestudio.github.io/herramientas-j15sec29/#lotes-cedulas
+https://sinergiaestudio.github.io/herramientas-j15sec29/#confronte-liquidaciones
 ```
 
 ## Observación
 
-Los documentos cargados en los procesadores nunca se suben a GitHub. GitHub aloja únicamente el código estático. El Cargador EJE opera localmente sobre una sesión ya autenticada y tampoco almacena credenciales ni números de expediente.
+Los documentos cargados en los procesadores nunca se suben a GitHub. GitHub aloja únicamente el código estático. El Creador de actuaciones en lote opera localmente sobre una sesión ya autenticada y tampoco almacena credenciales ni números de expediente.
