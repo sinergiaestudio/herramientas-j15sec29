@@ -33,40 +33,6 @@ Todo el procesamiento ocurre dentro del navegador. Los archivos seleccionados:
 
 La aplicación utiliza SheetJS Community Edition 0.20.3 desde su CDN oficial únicamente para leer los archivos de Excel. Como respaldo, intenta la etiqueta estable `latest` del mismo origen oficial. El contenido de los archivos permanece en el equipo del usuario.
 
-## Publicación en GitHub Pages
-
-Nombre de repositorio sugerido: `herramientas-sec29`.
-
-1. Crear un repositorio público en GitHub.
-2. Subir **todo el contenido** de esta carpeta, conservando la estructura.
-3. Abrir `Settings` → `Pages`.
-4. En `Build and deployment`, elegir `Deploy from a branch`.
-5. Seleccionar la rama `main` y la carpeta `/docs`.
-6. Guardar.
-
-Para la cuenta `sinergiaestudio`, la dirección esperada será:
-
-```text
-https://sinergiaestudio.github.io/herramientas-sec29/
-```
-
-## Pruebas
-
-La lógica de procesamiento está separada de la interfaz y cuenta con pruebas automáticas:
-
-```bash
-npm test
-```
-
-Las pruebas verifican, entre otras cosas:
-
-- la ausencia de `1)` cuando existe un único resultado;
-- la numeración cuando hay más de uno;
-- la limpieza de `escrit normal-`;
-- la detección automática de encabezados;
-- la exclusión de descripciones `VTO`;
-- la conservación de `Nro` para actuaciones y `N°` para vencimientos.
-
 ## Estructura
 
 ```text
