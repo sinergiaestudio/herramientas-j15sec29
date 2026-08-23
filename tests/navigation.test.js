@@ -29,12 +29,14 @@ test("seleccionar un módulo y presionar Escape cierran el menú", () => {
     assert.match(navigation, /event\.key === "Escape"[\s\S]*closeSidebar/);
 });
 
-test("las aplicaciones especializadas se integran sin desplazamiento interior", () => {
+test("las aplicaciones especializadas usan un puente de scroll hacia la página principal", () => {
+    assert.match(navigation, /sec29_embed/);
     assert.match(navigation, /scrolling="no"/);
-    assert.match(navigation, /new ResizeObserver\(scheduleResize\)/);
-    assert.match(navigation, /childDocument\.addEventListener\("wheel", forwardWheel/);
-    assert.match(navigation, /\.topbar \{ display: none !important; \}/);
-    assert.match(css, /\.integrated-app-canvas\s*\{[\s\S]*overflow:\s*hidden;/);
+    assert.match(navigation, /message\.type === "sec29-embed-height"/);
+    assert.match(navigation, /message\.type === "sec29-embed-scroll"/);
+    assert.match(navigation, /window\.scrollBy/);
+    assert.match(css, /\.integrated-app-canvas\s*\{[\s\S]*overflow:\s*visible;/);
+    assert.doesNotMatch(navigation, /childDocument\.addEventListener\("wheel"/);
     assert.doesNotMatch(css, /embedded-tool-card/);
 });
 
