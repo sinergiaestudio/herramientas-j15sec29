@@ -1,5 +1,16 @@
 # Historial de cambios
 
+## 6.4.0 — 2026-08-23
+
+- Se elimina definitivamente la integración mediante `iframe` de Cédulas y Confronte.
+- Ambos módulos se abren como páginas completas con desplazamiento nativo del navegador.
+- Se incorpora en las aplicaciones especializadas el mismo shell institucional de Herramientas SEC29.
+- El menú lateral comienza cerrado y ofrece acceso cruzado a los cuatro módulos.
+- El selector `☾ / ☀` permanece visible en el ángulo superior izquierdo y comparte la preferencia entre repositorios.
+- Se conservan nombres, rutas históricas, privacidad local y crédito de autoría.
+- Se elimina de la ruta efectiva todo puente de rueda, redimensionamiento o altura automática.
+- El service worker principal pasa a actualizar por red los activos críticos para evitar que una caché antigua reactive la integración anterior.
+
 ## 6.3.0 — 2026-08-23
 
 - Se corrige el crecimiento indefinido de la página en Cédulas y Confronte.
@@ -26,7 +37,7 @@
 
 - Se elimina la apariencia de “ventana dentro de otra ventana” en Cédulas y Confronte.
 - Las dos aplicaciones integradas ajustan su altura al contenido y dejan de tener desplazamiento vertical propio.
-- La rueda del mouse, el gesto táctil vertical y las teclas de navegación desplazan la página principal incluso cuando el puntero o el foco están dentro de la aplicación integrada.
+- La rueda del mouse, el gesto vertical y las teclas de navegación desplazan la página principal incluso cuando el puntero o el foco están dentro de la aplicación integrada.
 - Se ocultan las cabeceras internas redundantes y se conserva una única cabecera institucional.
 - Se reemplaza el contenedor con bordes por una integración continua, sin partición visual.
 - Se mantienen los accesos Recargar y Abrir aparte.
