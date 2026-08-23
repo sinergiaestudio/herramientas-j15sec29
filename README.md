@@ -1,6 +1,6 @@
 # Herramientas SEC29
 
-Aplicación web modular para tareas operativas del Juzgado N.º 15, Secretaría N.º 29. La versión 6.1 reúne cuatro accesos principales dentro de un menú lateral que siempre comienza completamente minimizado:
+Aplicación web modular para tareas operativas del Juzgado N.º 15, Secretaría N.º 29. La versión 6.2 reúne cuatro accesos principales dentro de un menú lateral que siempre comienza completamente minimizado:
 
 1. **Actuaciones y vencimientos:** procesa exportaciones del EJE y genera listados listos para WhatsApp.
 2. **Creador de actuaciones en lote:** instala un marcador que carga expedientes secuencialmente en la pantalla Crear actuación de EJE.
@@ -18,20 +18,18 @@ Aplicación web modular para tareas operativas del Juzgado N.º 15, Secretaría 
 
 La ruta histórica `#cargador-eje` continúa funcionando y redirige internamente a `#actuaciones-lote`.
 
-## Integración continua
+## Integración continua y desplazamiento único
 
-Cédulas EJE y Confronte de Liquidaciones EJF conservan sus repositorios y motores especializados, pero su presentación dentro de la suite ya no funciona como una ventana con desplazamiento independiente.
+Cédulas EJE y Confronte de Liquidaciones EJF conservan sus repositorios y motores especializados, pero dentro de la suite se comportan como parte de una única página.
 
-La versión 6.1:
+La versión 6.2 reemplaza la interceptación directa del contenido por un puente explícito entre cada aplicación y la página principal. Ese puente:
 
-- elimina el marco visual duplicado;
-- oculta las cabeceras internas redundantes;
-- ajusta automáticamente la altura de cada aplicación;
-- traslada la rueda del mouse, el gesto vertical y las teclas de navegación al desplazamiento de la página principal;
-- mantiene los botones `Recargar` y `Abrir aparte` en una barra discreta;
-- conserva la carga diferida para no ralentizar los demás módulos.
-
-Como las aplicaciones públicas se alojan bajo el mismo origen de GitHub Pages, la suite puede armonizar su presentación sin copiar ni duplicar sus motores de PDF, OCR o cálculo.
+- comunica automáticamente la altura real de la herramienta;
+- amplía o reduce el espacio cuando aparecen resultados, auditorías o paneles desplegables;
+- transmite la rueda del mouse, los gestos táctiles y las teclas de navegación al desplazamiento principal;
+- conserva el desplazamiento propio únicamente en controles que realmente lo necesitan;
+- evita barras verticales internas y el efecto de “ventana dentro de otra ventana”;
+- mantiene los botones `Recargar` y `Abrir aparte` como respaldo operativo.
 
 ## Regla de numeración
 
