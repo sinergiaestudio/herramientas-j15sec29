@@ -1,4 +1,4 @@
-const CACHE_NAME = "sec29-tools-v6.3.0";
+const CACHE_NAME = "sec29-tools-v6.4.0";
 const APP_SHELL = [
     "./",
     "./index.html",
@@ -15,6 +15,7 @@ const APP_SHELL = [
     "./assets/js/app.js",
     "./assets/js/cargador-eje.js",
     "./assets/js/navigation.js",
+    "./assets/js/external-navigation.js",
     "./assets/js/theme.js",
     "./favicon.svg",
     "./manifest.webmanifest",
@@ -40,10 +41,33 @@ self.addEventListener("fetch", (event) => {
     if (event.request.method !== "GET") return;
 
     const requestUrl = new URL(event.request.url);
+    const sameOrigin = requestUrl.origin === self.location.origin;
     const isSheetJs =
         requestUrl.hostname === "cdn.sheetjs.com" ||
         requestUrl.hostname === "cdn.jsdelivr.net" ||
         requestUrl.hostname === "cdnjs.cloudflare.com";
+    const isCoreAsset = sameOrigin && (
+        event.request.mode === "navigate" ||
+        requestUrl.pathname.endsWith(".js") ||
+        requestUrl.pathname.endsWith(".css") ||
+        requestUrl.pathname.endsWith(".html") ||
+        requestUrl.pathname.endsWith(".webmanifest")
+    );
+
+    if (isCoreAsset) {
+        event.respondWith(
+            fetch(event.request)
+                .then((response) => {
+                    if (response.ok) {
+                        const clone = response.clone();
+                        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+                    }
+                    return response;
+                })
+                .catch(() => caches.match(event.request).then((cached) => cached || caches.match("./index.html")))
+        );
+        return;
+    }
 
     if (isSheetJs) {
         event.respondWith(
@@ -65,7 +89,7 @@ self.addEventListener("fetch", (event) => {
             if (cached) return cached;
 
             return fetch(event.request).then((response) => {
-                if (response.ok && requestUrl.origin === self.location.origin) {
+                if (response.ok && sameOrigin) {
                     const clone = response.clone();
                     caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
                 }
