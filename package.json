@@ -1,6 +1,6 @@
 {
   "name": "herramientas-sec29",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "private": true,
   "description": "Suite modular para actuaciones, vencimientos, lotes de cédulas y confronte de liquidaciones EJF.",
   "scripts": {
