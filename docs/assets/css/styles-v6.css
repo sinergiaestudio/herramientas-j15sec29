@@ -1,5 +1,5 @@
 /* ========================================================================== 
-   Integración continua de aplicaciones especializadas · v6.1
+   Integración continua de aplicaciones especializadas · v6.2
    ========================================================================== */
 
 .nav-item__copy strong,
@@ -101,18 +101,19 @@
     position: relative;
     width: 100%;
     min-height: 680px;
-    overflow: hidden;
+    overflow: visible;
     background: transparent;
 }
 
 .integrated-app-frame {
     width: 100%;
-    height: 760px;
+    height: 680px;
     min-height: 680px;
     display: block;
     overflow: hidden;
     border: 0;
     background: transparent;
+    transition: height 120ms ease-out;
 }
 
 .integrated-app-status {
