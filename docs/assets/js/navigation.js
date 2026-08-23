@@ -27,8 +27,9 @@
     };
 
     const OPEN_CLASS = "sidebar-is-open";
-    const CEDULAS_URL = "https://sinergiaestudio.github.io/Cedulas-EJE-v1.0/";
-    const CONFRONTE_URL = "https://sinergiaestudio.github.io/Confronte-Liquidaciones-EJF-v2.1.0/";
+    const PAGES_ORIGIN = "https://sinergiaestudio.github.io";
+    const CEDULAS_URL = `${PAGES_ORIGIN}/Cedulas-EJE-v1.0/`;
+    const CONFRONTE_URL = `${PAGES_ORIGIN}/Confronte-Liquidaciones-EJF-v2.1.0/`;
 
     function normalizeRoute(hash) {
         const candidate = String(hash || "")
@@ -55,9 +56,11 @@
         if (link) {
             link.dataset.route = "actuaciones-lote";
             link.href = "#actuaciones-lote";
+
             const title = link.querySelector("strong");
             const subtitle = link.querySelector("small");
             const badge = link.querySelector(".nav-item__badge");
+
             if (title) title.textContent = "Creador de actuaciones en lote";
             if (subtitle) subtitle.textContent = "Carga secuencial de expedientes";
             if (badge) {
@@ -68,6 +71,7 @@
 
         const view = document.querySelector('[data-view="cargador-eje"]');
         if (!view) return;
+
         view.dataset.view = "actuaciones-lote";
 
         const heroEyebrow = view.querySelector(".hero__eyebrow");
@@ -122,7 +126,16 @@
         `);
     }
 
+    function addEmbedParameters(url, tool) {
+        const target = new URL(url);
+        target.searchParams.set("sec29_embed", "1");
+        target.searchParams.set("sec29_tool", tool);
+        return target.toString();
+    }
+
     function integratedViewMarkup({ route, title, cardCopy, url, frameId, tool, icon, calculation }) {
+        const embedUrl = addEmbedParameters(url, tool);
+
         return `
             <section class="app-view external-app-view" data-view="${route}" hidden aria-hidden="true">
                 <div class="integrated-app-bar">
@@ -138,24 +151,27 @@
                         <a class="button button--primary button--compact" href="${url}" target="_blank" rel="noopener noreferrer">↗ Abrir aparte</a>
                     </div>
                 </div>
+
                 <div class="integrated-app-canvas" data-frame-shell>
                     <div class="integrated-app-status" data-frame-status>
                         <span class="integrated-app-status__spinner" aria-hidden="true"></span>
                         <strong>Cargando ${title}…</strong>
-                        <small>La primera apertura puede demorar mientras se preparan los componentes de lectura documental.</small>
+                        <small>Preparando una vista continua, sin una barra de desplazamiento interior.</small>
                     </div>
+
                     <iframe
                         id="${frameId}"
                         class="integrated-app-frame"
                         data-external-frame
                         data-tool="${tool}"
-                        data-src="${url}"
+                        data-src="${embedUrl}"
                         title="${title}"
                         scrolling="no"
                         allow="clipboard-read; clipboard-write"
                         referrerpolicy="strict-origin-when-cross-origin"
                     ></iframe>
                 </div>
+
                 <p class="module-disclaimer">Herramienta de asistencia interna. La revisión profesional y la confirmación final permanecen a cargo del usuario.</p>
             </section>
         `;
@@ -168,7 +184,7 @@
         main.insertAdjacentHTML("beforeend", integratedViewMarkup({
             route: "lotes-cedulas",
             title: "Creador de Lotes - Cédulas",
-            cardCopy: "Vista continua: el desplazamiento pertenece a la página principal y no a una ventana interior.",
+            cardCopy: "Vista continua: el desplazamiento vertical pertenece a la página principal.",
             url: CEDULAS_URL,
             frameId: "cedulasEjeFrame",
             tool: "cedulas",
@@ -179,7 +195,7 @@
         main.insertAdjacentHTML("beforeend", integratedViewMarkup({
             route: "confronte-liquidaciones",
             title: "Confronte de Liquidaciones EJF",
-            cardCopy: "Vista continua: carga, revisión y resultados forman parte del desplazamiento general de la suite.",
+            cardCopy: "Vista continua: carga, revisión y resultados comparten un único desplazamiento.",
             url: CONFRONTE_URL,
             frameId: "confronteEJFrame",
             tool: "confronte",
@@ -190,10 +206,10 @@
 
     function updateShellMetadata() {
         const version = document.querySelector(".site-header__version");
-        if (version) version.textContent = "v6.1";
+        if (version) version.textContent = "v6.2";
     }
 
-    function prepareV61Shell() {
+    function prepareShell() {
         ensureStyles();
         renameActuacionesModule();
         addMenuEntries();
@@ -205,6 +221,7 @@
         const shell = frame.closest("[data-frame-shell]");
         const status = shell?.querySelector("[data-frame-status]");
         if (!status) return;
+
         status.hidden = ready;
         if (message) {
             const strong = status.querySelector("strong");
@@ -212,199 +229,102 @@
         }
     }
 
-    function injectedFrameCss(tool) {
-        const common = `
-            html, body {
-                min-height: 0 !important;
-                height: auto !important;
-                overflow: hidden !important;
-                background: transparent !important;
-                overscroll-behavior: none !important;
-            }
-            body { margin: 0 !important; }
-            .topbar { display: none !important; }
-            .app-shell { min-height: 0 !important; }
-            footer.footer { display: none !important; }
-        `;
+    function setFrameHeight(frame, rawHeight) {
+        const value = Number(rawHeight);
+        if (!Number.isFinite(value)) return;
 
-        if (tool === "cedulas") {
-            return common + `
-                .app-shell > .hero {
-                    padding-top: 34px !important;
-                    border-top: 0 !important;
-                }
-            `;
-        }
+        const minimum = window.matchMedia("(max-width: 620px)").matches ? 620 : 680;
+        const height = Math.max(minimum, Math.min(60000, Math.ceil(value)));
+        const shell = frame.closest("[data-frame-shell]");
 
-        return common;
+        frame.style.height = `${height}px`;
+        frame.style.minHeight = `${height}px`;
+        if (shell) shell.style.minHeight = `${height}px`;
+        frame.dataset.bridgeReady = "true";
+        frame.setAttribute("scrolling", "no");
+        setFrameStatus(frame, true);
     }
 
-    function integrateFrame(frame) {
-        try {
-            const childWindow = frame.contentWindow;
-            const childDocument = frame.contentDocument;
-            if (!childWindow || !childDocument?.documentElement || !childDocument.body) {
-                throw new Error("Documento integrado no disponible");
+    function frameFromSource(source) {
+        return Array.from(document.querySelectorAll("[data-external-frame]"))
+            .find((frame) => frame.contentWindow === source);
+    }
+
+    function initializeFrameBridge() {
+        window.addEventListener("message", (event) => {
+            if (event.origin !== PAGES_ORIGIN) return;
+
+            const frame = frameFromSource(event.source);
+            if (!frame || !event.data || typeof event.data !== "object") return;
+
+            const message = event.data;
+
+            if (message.type === "sec29-embed-ready") {
+                frame.dataset.bridgeReady = "true";
+                frame.setAttribute("scrolling", "no");
+                setFrameStatus(frame, true);
+                return;
             }
 
-            frame._sec29Cleanup?.();
-
-            let style = childDocument.getElementById("sec29-integrated-style");
-            if (!style) {
-                style = childDocument.createElement("style");
-                style.id = "sec29-integrated-style";
-                childDocument.head.appendChild(style);
+            if (message.type === "sec29-embed-height") {
+                setFrameHeight(frame, message.height);
+                return;
             }
-            style.textContent = injectedFrameCss(frame.dataset.tool);
 
-            let pending = false;
-            const resizeFrame = () => {
-                pending = false;
-                const body = childDocument.body;
-                const html = childDocument.documentElement;
-                if (!body || !html) return;
-
-                // Se mide con un alto mínimo temporal para permitir tanto crecimiento como reducción.
-                frame.style.height = "1px";
-                const measured = Math.max(
-                    body.scrollHeight,
-                    body.offsetHeight,
-                    html.scrollHeight,
-                    html.offsetHeight,
-                    body.getBoundingClientRect().height,
-                    html.getBoundingClientRect().height
-                );
-                frame.style.height = `${Math.max(680, Math.ceil(measured) + 2)}px`;
-            };
-
-            const scheduleResize = () => {
-                if (pending) return;
-                pending = true;
-                requestAnimationFrame(resizeFrame);
-            };
-
-            const resizeObserver = new ResizeObserver(scheduleResize);
-            resizeObserver.observe(childDocument.documentElement);
-            resizeObserver.observe(childDocument.body);
-
-            const mutationObserver = new MutationObserver(scheduleResize);
-            mutationObserver.observe(childDocument.body, {
-                subtree: true,
-                childList: true,
-                attributes: true,
-                characterData: true
-            });
-
-            const forwardWheel = (event) => {
-                if (event.ctrlKey) return;
-                window.scrollBy({
-                    top: event.deltaY,
-                    left: event.deltaX,
-                    behavior: "auto"
-                });
-                event.preventDefault();
-            };
-
-            let touchPoint = null;
-            const rememberTouch = (event) => {
-                if (event.touches.length !== 1) {
-                    touchPoint = null;
-                    return;
+            if (message.type === "sec29-embed-scroll") {
+                const x = Number(message.x) || 0;
+                const y = Number(message.y) || 0;
+                if (x || y) {
+                    window.scrollBy({ left: x, top: y, behavior: "auto" });
                 }
-                touchPoint = {
-                    x: event.touches[0].clientX,
-                    y: event.touches[0].clientY
-                };
-            };
+                return;
+            }
 
-            const forwardTouch = (event) => {
-                if (!touchPoint || event.touches.length !== 1) return;
-                const current = event.touches[0];
-                const deltaX = touchPoint.x - current.clientX;
-                const deltaY = touchPoint.y - current.clientY;
-
-                if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 1) {
-                    window.scrollBy({ top: deltaY, left: 0, behavior: "auto" });
-                    touchPoint = { x: current.clientX, y: current.clientY };
-                    event.preventDefault();
-                }
-            };
-
-            const forwardKeys = (event) => {
-                const tag = event.target?.tagName?.toLowerCase();
-                if (["input", "textarea", "select", "button"].includes(tag)) return;
-
-                const movements = {
-                    PageDown: Math.round(window.innerHeight * 0.86),
-                    PageUp: -Math.round(window.innerHeight * 0.86),
-                    ArrowDown: 48,
-                    ArrowUp: -48,
-                    " ": event.shiftKey ? -Math.round(window.innerHeight * 0.86) : Math.round(window.innerHeight * 0.86)
-                };
-
-                if (Object.prototype.hasOwnProperty.call(movements, event.key)) {
-                    window.scrollBy({ top: movements[event.key], behavior: "auto" });
-                    event.preventDefault();
-                } else if (event.key === "Home") {
-                    window.scrollTo({ top: 0, behavior: "auto" });
-                    event.preventDefault();
-                } else if (event.key === "End") {
-                    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "auto" });
-                    event.preventDefault();
-                }
-            };
-
-            childDocument.addEventListener("wheel", forwardWheel, { passive: false });
-            childDocument.addEventListener("touchstart", rememberTouch, { passive: true });
-            childDocument.addEventListener("touchmove", forwardTouch, { passive: false });
-            childDocument.addEventListener("touchend", () => { touchPoint = null; }, { passive: true });
-            childDocument.addEventListener("keydown", forwardKeys, true);
-            childDocument.addEventListener("click", scheduleResize, true);
-            childDocument.addEventListener("change", scheduleResize, true);
-            childWindow.addEventListener("resize", scheduleResize);
-            window.addEventListener("resize", scheduleResize);
-
-            frame._sec29Cleanup = () => {
-                resizeObserver.disconnect();
-                mutationObserver.disconnect();
-                childDocument.removeEventListener("wheel", forwardWheel);
-                childDocument.removeEventListener("touchstart", rememberTouch);
-                childDocument.removeEventListener("touchmove", forwardTouch);
-                childDocument.removeEventListener("keydown", forwardKeys, true);
-                childDocument.removeEventListener("click", scheduleResize, true);
-                childDocument.removeEventListener("change", scheduleResize, true);
-                childWindow.removeEventListener("resize", scheduleResize);
-                window.removeEventListener("resize", scheduleResize);
-            };
-
-            scheduleResize();
-            [60, 250, 800, 1800].forEach((delay) => setTimeout(scheduleResize, delay));
-            setFrameStatus(frame, true);
-        } catch (error) {
-            // Respaldo: si el navegador impide acceder al documento integrado,
-            // la herramienta sigue disponible mediante “Abrir aparte”.
-            frame.style.height = "82vh";
-            frame.setAttribute("scrolling", "yes");
-            setFrameStatus(frame, true);
-            console.warn("No se pudo activar la vista continua:", error);
-        }
+            if (message.type === "sec29-embed-scroll-to") {
+                const top = message.position === "end"
+                    ? document.documentElement.scrollHeight
+                    : 0;
+                window.scrollTo({ top, behavior: "auto" });
+            }
+        });
     }
 
     function loadFrame(frame, force = false) {
         const source = frame.dataset.src;
         if (!source || (!force && frame.dataset.loaded === "true")) return;
 
-        frame._sec29Cleanup?.();
         setFrameStatus(frame, false);
         frame.dataset.loaded = "true";
-        frame.src = force
-            ? source + (source.includes("?") ? "&" : "?") + "sec29_reload=" + Date.now()
-            : source;
+        frame.dataset.bridgeReady = "false";
+        frame.setAttribute("scrolling", "no");
+
+        const target = new URL(source);
+        if (force) target.searchParams.set("sec29_reload", String(Date.now()));
+        frame.src = target.toString();
+
+        window.setTimeout(() => {
+            if (frame.dataset.bridgeReady === "true") return;
+
+            // Respaldo operativo: si la aplicación especializada todavía no publicó
+            // el puente, sigue siendo utilizable con desplazamiento propio.
+            frame.style.height = "82vh";
+            frame.style.minHeight = "680px";
+            frame.setAttribute("scrolling", "yes");
+            setFrameStatus(frame, true);
+        }, 12000);
     }
 
     function initializeExternalFrames() {
+        initializeFrameBridge();
+
         document.querySelectorAll("[data-external-frame]").forEach((frame) => {
-            frame.addEventListener("load", () => integrateFrame(frame));
+            frame.addEventListener("load", () => {
+                window.setTimeout(() => {
+                    if (frame.dataset.bridgeReady !== "true") {
+                        setFrameStatus(frame, false, "Terminando de preparar la vista continua…");
+                    }
+                }, 250);
+            });
         });
 
         document.querySelectorAll("[data-frame-reload]").forEach((button) => {
@@ -421,7 +341,7 @@
     }
 
     function initializeNavigation() {
-        prepareV61Shell();
+        prepareShell();
         initializeExternalFrames();
 
         const body = document.body;
@@ -441,7 +361,10 @@
         function setToggleState() {
             const expanded = isSidebarOpen();
             toggle.setAttribute("aria-expanded", String(expanded));
-            toggle.setAttribute("aria-label", expanded ? "Cerrar menú de herramientas" : "Abrir menú de herramientas");
+            toggle.setAttribute(
+                "aria-label",
+                expanded ? "Cerrar menú de herramientas" : "Abrir menú de herramientas"
+            );
             sidebar.setAttribute("aria-hidden", String(!expanded));
             if (expanded) sidebar.removeAttribute("inert");
             else sidebar.setAttribute("inert", "");
@@ -488,13 +411,18 @@
                 history.replaceState(null, "", `#${normalizedRoute}`);
             }
 
-            if (options.scroll !== false) window.scrollTo({ top: 0, behavior: "auto" });
+            if (options.scroll !== false) {
+                window.scrollTo({ top: 0, behavior: "auto" });
+            }
+
             loadFramesForRoute(normalizedRoute);
             closeSidebar();
         }
 
         toggle.addEventListener("click", toggleSidebar);
-        closeControls.forEach((control) => control.addEventListener("click", () => closeSidebar({ returnFocus: true })));
+        closeControls.forEach((control) => {
+            control.addEventListener("click", () => closeSidebar({ returnFocus: true }));
+        });
 
         routeLinks.forEach((link) => {
             link.addEventListener("click", (event) => {
@@ -505,14 +433,25 @@
             });
         });
 
-        window.addEventListener("hashchange", () => applyRoute(location.hash, { updateHash: false }));
-        window.addEventListener("popstate", () => applyRoute(location.hash, { updateHash: false }));
+        window.addEventListener("hashchange", () => {
+            applyRoute(location.hash, { updateHash: false });
+        });
+
+        window.addEventListener("popstate", () => {
+            applyRoute(location.hash, { updateHash: false });
+        });
+
         document.addEventListener("keydown", (event) => {
-            if (event.key === "Escape" && isSidebarOpen()) closeSidebar({ returnFocus: true });
+            if (event.key === "Escape" && isSidebarOpen()) {
+                closeSidebar({ returnFocus: true });
+            }
         });
 
         body.classList.remove(OPEN_CLASS);
-        applyRoute(location.hash, { updateHash: !location.hash, scroll: true });
+        applyRoute(location.hash, {
+            updateHash: !location.hash,
+            scroll: true
+        });
         setToggleState();
     }
 
