@@ -1,5 +1,14 @@
 # Historial de cambios
 
+## 6.2.0 — 2026-08-23
+
+- Se reemplaza la interceptación directa del `iframe` por un puente explícito de mensajes entre la suite y las aplicaciones especializadas.
+- Cédulas EJE y Confronte EJF comunican su altura real y actualizan el espacio disponible cuando cambia el contenido.
+- La rueda del mouse, el gesto táctil vertical y las teclas de navegación desplazan de forma confiable la página principal.
+- Los controles con desplazamiento propio conservan su comportamiento únicamente mientras todavía tengan contenido interno por recorrer.
+- Se elimina el bloqueo que impedía continuar hacia abajo cuando el puntero estaba dentro de una herramienta integrada.
+- Se renueva la caché offline y se actualizan las pruebas del módulo de navegación.
+
 ## 6.1.0 — 2026-08-21
 
 - Se elimina la apariencia de “ventana dentro de otra ventana” en Cédulas y Confronte.
