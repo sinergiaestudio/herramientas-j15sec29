@@ -1,5 +1,18 @@
 # Historial de cambios
 
+## 6.3.0 — 2026-08-23
+
+- Se corrige el crecimiento indefinido de la página en Cédulas y Confronte.
+- La altura integrada se calcula exclusivamente a partir del contenido intrínseco y deja de tomar como referencia el alto del `iframe`, del `body` o del documento exterior.
+- Se elimina la transición de altura que contribuía a retroalimentar el redimensionamiento.
+- La rueda del mouse, el trackpad, los gestos táctiles y las teclas de navegación desplazan la página principal mediante un puente estable de mensajes.
+- Se mantiene el desplazamiento propio de tablas y controles solamente mientras todavía tengan recorrido interno.
+- Se incorpora modo oscuro global y persistente.
+- El botón `☾ / ☀` permanece siempre visible junto al menú, en el ángulo superior izquierdo.
+- El tema se sincroniza con todas las pantallas y aplicaciones integradas.
+- El modo oscuro queda establecido como requisito para las herramientas que se incorporen en adelante.
+- Se renuevan las cachés para forzar la carga del puente y de los estilos corregidos.
+
 ## 6.2.0 — 2026-08-23
 
 - Se reemplaza la interceptación directa del `iframe` por un puente explícito de mensajes entre la suite y las aplicaciones especializadas.
