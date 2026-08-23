@@ -3,9 +3,50 @@
 
     const STORAGE_KEY = "sec29-theme";
     const PAGES_ORIGIN = "https://sinergiaestudio.github.io";
+    const EXTERNAL_ROUTES = Object.freeze({
+        "lotes-cedulas": `${PAGES_ORIGIN}/Cedulas-EJE-v1.0/`,
+        cedulas: `${PAGES_ORIGIN}/Cedulas-EJE-v1.0/`,
+        "confronte-liquidaciones": `${PAGES_ORIGIN}/Confronte-Liquidaciones-EJF-v2.1.0/`,
+        confronte: `${PAGES_ORIGIN}/Confronte-Liquidaciones-EJF-v2.1.0/`
+    });
     const root = document.documentElement;
     const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
     const observedFrames = new WeakSet();
+
+    function externalRouteFromHash() {
+        return String(location.hash || "")
+            .replace(/^#/, "")
+            .trim()
+            .toLocaleLowerCase("es-AR");
+    }
+
+    function navigateToExternal(route, replace = false) {
+        const target = EXTERNAL_ROUTES[route];
+        if (!target) return false;
+        if (replace) location.replace(target);
+        else location.assign(target);
+        return true;
+    }
+
+    // Los módulos complejos ya no se ejecutan dentro de iframes. Se abren como
+    // páginas completas de la misma suite, con idéntica cabecera, menú y tema.
+    if (navigateToExternal(externalRouteFromHash(), true)) return;
+
+    document.addEventListener("click", (event) => {
+        const link = event.target instanceof Element
+            ? event.target.closest("[data-route]")
+            : null;
+        if (!link) return;
+
+        const route = String(link.dataset.route || "")
+            .trim()
+            .toLocaleLowerCase("es-AR");
+        if (!EXTERNAL_ROUTES[route]) return;
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        navigateToExternal(route);
+    }, true);
 
     function readStoredTheme() {
         try {
@@ -125,7 +166,7 @@
         });
 
         const version = document.querySelector(".site-header__version");
-        if (version) version.textContent = "v6.3";
+        if (version) version.textContent = "v6.4";
     }
 
     if (document.readyState === "loading") {
