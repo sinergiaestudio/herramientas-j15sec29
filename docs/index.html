@@ -6,16 +6,31 @@
 <meta name="theme-color" content="#821529">
 <meta name="description" content="Suite local de herramientas para actuaciones, vencimientos y automatización operativa en EJE.">
 <title>Herramientas SEC29</title>
+<script>
+(function () {
+    try {
+        const stored = localStorage.getItem("sec29-theme");
+        const theme = stored === "dark" || stored === "light"
+            ? stored
+            : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+    } catch {
+        document.documentElement.dataset.theme = "light";
+    }
+})();
+</script>
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="stylesheet" href="./assets/css/styles.css">
 <link rel="stylesheet" href="./assets/css/styles-v5a.css">
 <link rel="stylesheet" href="./assets/css/styles-v5b.css">
+<link rel="stylesheet" href="./assets/css/styles-theme.css">
 </head>
 <body>
 <header class="site-header"><div class="site-header__inner">
 <div class="site-header__left"><button class="menu-toggle" type="button" data-sidebar-toggle aria-label="Abrir menú de herramientas" aria-controls="app-sidebar" aria-expanded="false"><span aria-hidden="true">☰</span></button><a class="brand" href="#procesadores"><span class="brand__mark" aria-hidden="true">⚖</span><span class="brand__copy"><strong>Juzgado N.º 15 · Secretaría N.º 29</strong><small>Biblioteca de Mero Trámite · Herramientas internas</small></span></a></div>
-<div class="site-header__meta"><span data-current-module>Actuaciones y vencimientos</span><span class="site-header__version">v5.1</span></div>
+<div class="site-header__meta"><span data-current-module>Actuaciones y vencimientos</span><span class="site-header__version">v6.3</span></div>
 </div></header>
 <div class="workspace">
 <aside class="sidebar" id="app-sidebar" aria-label="Menú de herramientas" aria-hidden="true" inert>
@@ -59,5 +74,5 @@
 <div class="toast" id="toast" data-type="success" role="status" aria-live="polite" hidden><span data-toast-message></span></div>
 <script src="./assets/js/processors.js"></script>
 <script src="./assets/js/cargador-eje-part1.js"></script><script src="./assets/js/cargador-eje-part2.js"></script><script src="./assets/js/cargador-eje-part3.js"></script><script src="./assets/js/cargador-eje-source.js"></script>
-<script src="./assets/js/app.js"></script><script src="./assets/js/cargador-eje.js"></script><script src="./assets/js/navigation.js"></script>
+<script src="./assets/js/app.js"></script><script src="./assets/js/cargador-eje.js"></script><script src="./assets/js/navigation.js"></script><script src="./assets/js/theme.js"></script>
 </body></html>
