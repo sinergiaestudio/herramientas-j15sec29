@@ -16,7 +16,7 @@ test("el tema se aplica antes del primer render y conserva la preferencia", () =
 
 test("el control de tema queda junto al menú y es accesible", () => {
     assert.match(theme, /className = "theme-toggle"/);
-    assert.match(theme, /data\.themeToggle/);
+    assert.match(theme, /button\.dataset\.themeToggle/);
     assert.match(theme, /Activar modo oscuro/);
     assert.match(theme, /Activar modo claro/);
     assert.match(css, /\.theme-toggle\s*\{/);
