@@ -10,6 +10,10 @@ const css = ["styles.css", "styles-v5a.css", "styles-v5b.css", "styles-v6.css"]
     .join("\n");
 const navigation = fs.readFileSync(path.join(root, "docs/assets/js/navigation.js"), "utf8");
 const theme = fs.readFileSync(path.join(root, "docs/assets/js/theme.js"), "utf8");
+const lotesActuaciones = fs.readFileSync(
+    path.join(root, "docs/assets/js/lotes-actuaciones-module.js"),
+    "utf8"
+);
 
 test("el menú inicia completamente cerrado y con ARIA consistente", () => {
     assert.match(html, /data-sidebar-toggle[^>]+aria-expanded="false"/);
@@ -40,11 +44,20 @@ test("Cédulas y Confronte se abren como páginas completas, sin iframe ni puent
     assert.doesNotMatch(theme, /window\.scrollBy/);
 });
 
-test("se preservan nombres y rutas de los cuatro módulos", () => {
+test("se preservan nombres y rutas de los cinco módulos", () => {
     assert.match(navigation, /Creador de actuaciones en lote/);
     assert.match(navigation, /Creador de Lotes - Cédulas/);
     assert.match(navigation, /Confronte de Liquidaciones EJF/);
     assert.match(navigation, /"cargador-eje": "actuaciones-lote"/);
     assert.match(theme, /"lotes-cedulas"/);
     assert.match(theme, /"confronte-liquidaciones"/);
+    assert.match(lotesActuaciones, /const ROUTE = "lotes-actuaciones"/);
+    assert.match(lotesActuaciones, /Creador de Lotes - Actuaciones/);
+});
+
+test("el nuevo módulo se carga desde la suite y conserva el menú minimizado", () => {
+    assert.match(theme, /lotes-actuaciones-source\.js/);
+    assert.match(theme, /lotes-actuaciones-module\.js/);
+    assert.match(lotesActuaciones, /closeSidebar\(\)/);
+    assert.match(lotesActuaciones, /sidebar\.setAttribute\("inert", ""\)/);
 });
