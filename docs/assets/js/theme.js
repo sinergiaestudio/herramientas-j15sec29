@@ -77,6 +77,10 @@
             "sec29-lotes-actuaciones-source"
         )
             .then(() => loadScript(
+                "./assets/js/lotes-actuaciones-stability.js",
+                "sec29-lotes-actuaciones-stability"
+            ))
+            .then(() => loadScript(
                 "./assets/js/lotes-actuaciones-module.js",
                 "sec29-lotes-actuaciones-module"
             ))
@@ -205,7 +209,7 @@
         });
 
         const version = document.querySelector(".site-header__version");
-        if (version) version.textContent = "v6.5";
+        if (version) version.textContent = "v6.5.1";
     }
 
     if (document.readyState === "loading") {
