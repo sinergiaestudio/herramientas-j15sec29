@@ -168,13 +168,14 @@
                     const selectionAfter = selectedLotSnapshot(expediente);
                     const error = pageError();
                     if (error && !selectedLotConfirmed(expediente, selectionBefore)) {
-                        throw new Error(`EJE informó: ${error}.`);
+                        throw new Error("EJE informó: " + error + ".");
                     }
 
                     if (!confirmed || !selectedLotConfirmed(expediente, selectionBefore)) {
                         throw new Error(
                             "No pudo comprobarse la incorporación en la tabla inferior del lote. "
-                            + `Cantidad anterior: ${selectionBefore.count}; cantidad actual: ${selectionAfter.count}.`
+                            + "Cantidad anterior: " + selectionBefore.count
+                            + "; cantidad actual: " + selectionAfter.count + "."
                         );
                     }
 
