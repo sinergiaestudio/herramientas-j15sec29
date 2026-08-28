@@ -28,8 +28,7 @@
         return true;
     }
 
-    // Los módulos complejos ya no se ejecutan dentro de iframes. Se abren como
-    // páginas completas de la misma suite, con idéntica cabecera, menú y tema.
+    // Los módulos complejos se abren como páginas completas de la misma suite.
     if (navigateToExternal(externalRouteFromHash(), true)) return;
 
     document.addEventListener("click", (event) => {
@@ -47,6 +46,46 @@
         event.stopImmediatePropagation();
         navigateToExternal(route);
     }, true);
+
+    function loadScript(src, id) {
+        return new Promise((resolve, reject) => {
+            const existing = document.getElementById(id);
+            if (existing) {
+                if (existing.dataset.loaded === "true") resolve();
+                else existing.addEventListener("load", resolve, { once: true });
+                return;
+            }
+
+            const script = document.createElement("script");
+            script.id = id;
+            script.src = src;
+            script.defer = true;
+            script.addEventListener("load", () => {
+                script.dataset.loaded = "true";
+                resolve();
+            }, { once: true });
+            script.addEventListener("error", () => {
+                reject(new Error(`No se pudo cargar ${src}`));
+            }, { once: true });
+            document.head.appendChild(script);
+        });
+    }
+
+    function loadLotesActuacionesModule() {
+        loadScript(
+            "./assets/js/lotes-actuaciones-source.js",
+            "sec29-lotes-actuaciones-source"
+        )
+            .then(() => loadScript(
+                "./assets/js/lotes-actuaciones-module.js",
+                "sec29-lotes-actuaciones-module"
+            ))
+            .catch((error) => {
+                console.error("No se pudo inicializar Creador de Lotes - Actuaciones:", error);
+            });
+    }
+
+    loadLotesActuacionesModule();
 
     function readStoredTheme() {
         try {
@@ -166,7 +205,7 @@
         });
 
         const version = document.querySelector(".site-header__version");
-        if (version) version.textContent = "v6.4";
+        if (version) version.textContent = "v6.5";
     }
 
     if (document.readyState === "loading") {
