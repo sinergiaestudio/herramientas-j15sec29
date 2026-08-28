@@ -59,5 +59,5 @@ test("el nuevo módulo se carga desde la suite y conserva el menú minimizado", 
     assert.match(theme, /lotes-actuaciones-source\.js/);
     assert.match(theme, /lotes-actuaciones-module\.js/);
     assert.match(lotesActuaciones, /closeSidebar\(\)/);
-    assert.match(lotesActuaciones, /sidebar\.setAttribute\("inert", ""\)/);
+    assert.match(lotesActuaciones, /sidebar\?\.setAttribute\("inert", ""\)/);
 });
