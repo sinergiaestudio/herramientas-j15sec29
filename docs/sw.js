@@ -1,4 +1,4 @@
-const CACHE_NAME = "sec29-tools-v6.5.0";
+const CACHE_NAME = "sec29-tools-v6.5.1";
 const APP_SHELL = [
     "./",
     "./index.html",
@@ -13,6 +13,7 @@ const APP_SHELL = [
     "./assets/js/cargador-eje-part3.js",
     "./assets/js/cargador-eje-source.js",
     "./assets/js/lotes-actuaciones-source.js",
+    "./assets/js/lotes-actuaciones-stability.js",
     "./assets/js/lotes-actuaciones-module.js",
     "./assets/js/app.js",
     "./assets/js/cargador-eje.js",
