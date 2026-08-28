@@ -10,7 +10,42 @@ const api = require(sourcePath);
 const source = api.source;
 const moduleCode = fs.readFileSync(modulePath, "utf8");
 
-test("valida expedientes, CUIJ, duplicados e inválidos", () => {
+test("acepta el formato operativo de números de expediente", () => {
+    const input = [
+        "313123/2025-0",
+        "496223/2020-0",
+        "192793/2025-0",
+        "149554/2025-0",
+        "240153/2022-0",
+    ].join("\n");
+
+    const result = api.parseExpedientes(input);
+
+    assert.deepEqual(result.valid, [
+        "313123/2025-0",
+        "496223/2020-0",
+        "192793/2025-0",
+        "149554/2025-0",
+        "240153/2022-0",
+    ]);
+    assert.deepEqual(result.invalid, []);
+    assert.deepEqual(result.duplicates, []);
+    assert.equal(result.total, 5);
+});
+
+test("admite cientos de expedientes sin recortar la cola", () => {
+    const values = Array.from({ length: 500 }, (_, index) => `${300000 + index}/2025-0`);
+    const result = api.parseExpedientes(values.join("\n"));
+
+    assert.equal(result.total, 500);
+    assert.equal(result.valid.length, 500);
+    assert.deepEqual(result.invalid, []);
+    assert.deepEqual(result.duplicates, []);
+    assert.equal(result.valid[0], "300000/2025-0");
+    assert.equal(result.valid[499], "300499/2025-0");
+});
+
+test("normaliza espacios, detecta duplicados y rechaza valores inválidos", () => {
     const result = api.parseExpedientes([
         "12463/2020-0",
         " 12463 / 2020 - 0 ",
@@ -44,6 +79,14 @@ test("el bookmarklet verifica cada expediente antes de limpiar", () => {
     assert.ok(verifyIndex >= 0);
     assert.ok(clearIndex > applyIndex);
     assert.match(source, /No pudo comprobarse que las actuaciones del expediente fueran agregadas/);
+});
+
+test("el ciclo continúa después de Limpiar y vuelve al siguiente expediente", () => {
+    assert.match(source, /clearButton\.click\(\)/);
+    assert.match(source, /EJE no limpió el campo Expediente/);
+    assert.match(source, /index \+= 1/);
+    assert.match(source, /while \(running && index < queue\.length\)/);
+    assert.match(source, /Secuencia: Expediente → Aplicar y agregar → comprobar resultado → Limpiar → siguiente/);
 });
 
 test("el bookmarklet no presiona el botón final Agregar", () => {
