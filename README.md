@@ -11,7 +11,9 @@
 <p align="center">
   <a href="https://sinergiaestudio.github.io/herramientas-j15sec29/"><strong>Abrir Herramientas SEC29</strong></a>
   ·
-  <a href="https://sinergiaestudio.github.io/Cedulas-EJE-v1.0/">Creador de Lotes - Cédulas</a>
+  <a href="https://sinergiaestudio.github.io/herramientas-j15sec29/#lotes-actuaciones">Lotes - Actuaciones</a>
+  ·
+  <a href="https://sinergiaestudio.github.io/Cedulas-EJE-v1.0/">Lotes - Cédulas</a>
   ·
   <a href="https://sinergiaestudio.github.io/Confronte-Liquidaciones-EJF-v2.1.0/">Confronte EJF</a>
   ·
@@ -19,7 +21,7 @@
 </p>
 
 <p align="center">
-  <img alt="versión" src="https://img.shields.io/badge/versión-6.4-821529">
+  <img alt="versión" src="https://img.shields.io/badge/versión-6.5-821529">
   <img alt="GitHub Pages" src="https://img.shields.io/badge/GitHub%20Pages-publicada-365F91">
   <img alt="procesamiento local" src="https://img.shields.io/badge/procesamiento-local-2F7D5C">
   <img alt="control humano" src="https://img.shields.io/badge/control-humano-B99655">
@@ -39,7 +41,7 @@ La suite reúne procesadores de planillas, marcadores operativos para EJE y apli
 ## Vista general
 
 <p align="center">
-  <img src="docs/readme/sec29-overview.svg" alt="Vista general de los cuatro módulos de Herramientas SEC29" width="100%">
+  <img src="docs/readme/sec29-overview.svg" alt="Vista general de los módulos de Herramientas SEC29" width="100%">
 </p>
 
 ## Módulos disponibles
@@ -47,9 +49,36 @@ La suite reúne procesadores de planillas, marcadores operativos para EJE y apli
 | Módulo | Función | Resultado |
 |---|---|---|
 | **Actuaciones y vencimientos** | Lee exportaciones XLSX, XLS o CSV y detecta carátula, expediente, título o descripción. | Listado listo para copiar en WhatsApp o descargar como TXT. |
-| **Creador de actuaciones en lote** | Instala un marcador que carga números de expediente secuencialmente en una sesión autenticada de EJE. | Registro controlado de cargas, duplicados y errores. |
+| **Creador de actuaciones en lote** | Carga números de expediente secuencialmente en la pantalla Crear actuación. | Registro controlado de cargas, duplicados y errores. |
+| **Creador de Lotes - Actuaciones** | Recorre expedientes en Crear lote con estado BORRADOR mediante `Aplicar y agregar → Limpiar`. | Borradores incorporados al lote, con verificación y registro CSV. |
 | **Creador de Lotes - Cédulas** | Analiza PDFs de confronte, separa remisiones, observaciones y casos ambiguos. | Lista revisable para Crear lote y acceso asistido a EJE. |
 | **Confronte de Liquidaciones EJF** | Compara constancias de deuda y liquidaciones mandatarias y recalcula intereses. | Control de identidad, integridad nominal y cálculo trazable. |
+
+## Creador de Lotes - Actuaciones
+
+El módulo 6.5 incorpora un marcador específico para la pantalla **Actuaciones → Crear lote** de EJE.
+
+Flujo:
+
+```text
+Expediente
+→ Aplicar y agregar
+→ comprobar que el expediente aparezca
+→ Limpiar
+→ siguiente expediente
+```
+
+Controles incorporados:
+
+- exige que el estado visible sea **BORRADOR**;
+- detecta el campo **Expediente — CUIJ o Número, Año y Sufijo**;
+- permite elegir manualmente el campo si la detección falla;
+- acepta números de expediente y CUIJ;
+- valida formatos y elimina duplicados;
+- dispone de pausa, omisión y detención;
+- se detiene si EJE no confirma el resultado o no limpia el campo;
+- exporta un registro CSV;
+- nunca presiona el botón inferior **Agregar**.
 
 ## Una experiencia común
 
@@ -69,6 +98,7 @@ La suite reúne procesadores de planillas, marcadores operativos para EJE y apli
 | Suite principal | [sinergiaestudio.github.io/herramientas-j15sec29](https://sinergiaestudio.github.io/herramientas-j15sec29/) |
 | Actuaciones y vencimientos | [Abrir módulo](https://sinergiaestudio.github.io/herramientas-j15sec29/#procesadores) |
 | Creador de actuaciones en lote | [Abrir módulo](https://sinergiaestudio.github.io/herramientas-j15sec29/#actuaciones-lote) |
+| Creador de Lotes - Actuaciones | [Abrir módulo](https://sinergiaestudio.github.io/herramientas-j15sec29/#lotes-actuaciones) |
 | Creador de Lotes - Cédulas | [Abrir aplicación](https://sinergiaestudio.github.io/Cedulas-EJE-v1.0/) |
 | Confronte de Liquidaciones EJF | [Abrir aplicación](https://sinergiaestudio.github.io/Confronte-Liquidaciones-EJF-v2.1.0/) |
 
@@ -99,11 +129,11 @@ Las planillas y los PDFs se leen en el navegador. La suite no mantiene una base 
 
 ### Automatización asistida
 
-Los marcadores completan campos visibles, simulan acciones operativas y se detienen cuando no pueden verificar el resultado. No firman, no seleccionan modelos y no sustituyen la decisión del usuario.
+Los marcadores completan campos visibles, ejecutan acciones operativas y se detienen cuando no pueden verificar el resultado. No firman ni sustituyen la decisión del usuario.
 
 ### Evidencia visible
 
-Los módulos complejos exponen resultados, fundamentos, trazabilidad y casos que requieren revisión. La automatización no oculta la incertidumbre.
+Los módulos exponen resultados, fundamentos, trazabilidad y casos que requieren revisión. La automatización no oculta la incertidumbre.
 
 ### Identidad compartida
 
@@ -118,6 +148,7 @@ Herramientas SEC29
 │   └── Vencimientos
 ├── Automatización EJE
 │   ├── Creador de actuaciones en lote
+│   ├── Creador de Lotes - Actuaciones
 │   └── Creador de Lotes - Cédulas
 └── Control y cálculo
     └── Confronte de Liquidaciones EJF
@@ -141,7 +172,7 @@ La suite es una aplicación estática publicada desde `/docs` mediante GitHub Pa
 npm test
 ```
 
-Las pruebas verifican formatos, filtros, navegación, menú lateral, tema y consistencia del marcador EJE.
+Las pruebas verifican formatos, filtros, navegación, menú lateral, tema y consistencia de los marcadores EJE.
 
 ## Repositorios relacionados
 
