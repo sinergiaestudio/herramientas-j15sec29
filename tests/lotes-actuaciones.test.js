@@ -3,10 +3,24 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const sourcePath = path.join(__dirname, "..", "docs", "assets", "js", "lotes-actuaciones-source.js");
-const modulePath = path.join(__dirname, "..", "docs", "assets", "js", "lotes-actuaciones-module.js");
+const stabilityPath = path.join(
+    __dirname,
+    "..",
+    "docs",
+    "assets",
+    "js",
+    "lotes-actuaciones-stability.js"
+);
+const modulePath = path.join(
+    __dirname,
+    "..",
+    "docs",
+    "assets",
+    "js",
+    "lotes-actuaciones-module.js"
+);
 
-const api = require(sourcePath);
+const api = require(stabilityPath);
 const source = api.source;
 const moduleCode = fs.readFileSync(modulePath, "utf8");
 
@@ -70,20 +84,37 @@ test("el bookmarklet exige EJE y trabaja con BORRADOR y Expediente", () => {
     assert.match(source, /No se encontró el botón “Limpiar”/);
 });
 
-test("el bookmarklet verifica cada expediente antes de limpiar", () => {
-    const applyIndex = source.indexOf('findControl("Aplicar y agregar"');
-    const verifyIndex = source.indexOf("pageHasExpediente(expediente)");
-    const clearIndex = source.indexOf('findControl("Limpiar", targetField)', applyIndex);
-
-    assert.ok(applyIndex >= 0);
-    assert.ok(verifyIndex >= 0);
-    assert.ok(clearIndex > applyIndex);
-    assert.match(source, /No pudo comprobarse que las actuaciones del expediente fueran agregadas/);
+test("la confirmación no toma como éxito el valor escrito en el filtro", () => {
+    assert.doesNotMatch(source, /const pageTextCompact/);
+    assert.doesNotMatch(source, /pageHasExpediente\(expediente\)/);
+    assert.match(source, /const selectedTable =/);
+    assert.match(source, /nro\. expediente/);
+    assert.match(source, /quitar/);
+    assert.match(source, /cantidad seleccionada/);
+    assert.match(source, /selectedLotSnapshot/);
+    assert.match(source, /selectedLotConfirmed/);
 });
 
-test("el ciclo continúa después de Limpiar y vuelve al siguiente expediente", () => {
+test("Aplicar y agregar espera una incorporación real antes de Limpiar", () => {
+    const baselineIndex = source.indexOf("const selectionBefore = selectedLotSnapshot(expediente)");
+    const applyIndex = source.indexOf("applyButton.click()", baselineIndex);
+    const confirmIndex = source.indexOf("selectedLotConfirmed(expediente, selectionBefore)", applyIndex);
+    const clearIndex = source.indexOf('findControl("Limpiar", targetField)', confirmIndex);
+
+    assert.ok(baselineIndex >= 0);
+    assert.ok(applyIndex > baselineIndex);
+    assert.ok(confirmIndex > applyIndex);
+    assert.ok(clearIndex > confirmIndex);
+    assert.match(source, /Cantidad anterior:/);
+    assert.match(source, /30000/);
+    assert.match(source, /Estabilizando resultado/);
+});
+
+test("el ciclo continúa después de Limpiar y estabiliza la pantalla", () => {
     assert.match(source, /clearButton\.click\(\)/);
     assert.match(source, /EJE no limpió el campo Expediente/);
+    assert.match(source, /Preparando siguiente expediente/);
+    assert.match(source, /await delay\(800\)/);
     assert.match(source, /index \+= 1/);
     assert.match(source, /while \(running && index < queue\.length\)/);
     assert.match(source, /Secuencia: Expediente → Aplicar y agregar → comprobar resultado → Limpiar → siguiente/);
@@ -100,6 +131,7 @@ test("la interfaz ofrece pausa, detención, omisión, tema y CSV", () => {
     assert.match(source, /id="skip"/);
     assert.match(source, /sec29-eje-tool-theme/);
     assert.match(source, /registro_lotes_actuaciones_/);
+    assert.match(source, /borradores por expediente · v1\.1/);
 });
 
 test("el módulo se incorpora a la suite con una ruta propia", () => {

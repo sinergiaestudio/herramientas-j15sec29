@@ -1,5 +1,24 @@
 # Historial de cambios
 
+## 6.5.1 — 2026-08-28
+
+- Se corrige una condición de carrera en **Creador de Lotes - Actuaciones**.
+- La herramienta deja de considerar como confirmación el número visible dentro del propio campo de filtro.
+- La incorporación se verifica contra la tabla inferior **“Se creará un lote con las siguientes actuaciones”** y contra el incremento de **Cantidad seleccionada**.
+- Se contemplan lotes de más de 30 documentos, aun cuando el expediente recién incorporado quede fuera de la página visible de la tabla.
+- Se amplía la espera verificable hasta 30 segundos y se agregan pausas de estabilización antes y después de `Limpiar`.
+- Los mensajes de error informan la cantidad seleccionada anterior y actual para facilitar el diagnóstico.
+- Se renueva la caché y se identifica el marcador como v1.1.
+
+## 6.5.0 — 2026-08-28
+
+- Se incorpora **Creador de Lotes - Actuaciones**.
+- Acepta listas extensas de expedientes con formato `313123/2025-0`.
+- Ejecuta el circuito `Expediente → Aplicar y agregar → verificación → Limpiar → siguiente`.
+- Mantiene el estado en **BORRADOR**.
+- Incluye pausa, omisión, detención, selección manual del campo, tema claro/oscuro y registro CSV.
+- Nunca presiona el botón final `Agregar` o `Crear lote`.
+
 ## 6.4.0 — 2026-08-23
 
 - Se elimina definitivamente la integración mediante `iframe` de Cédulas y Confronte.
