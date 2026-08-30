@@ -72,7 +72,7 @@
     }
 
     function loadLotesActuacionesModule() {
-        loadScript(
+        return loadScript(
             "./assets/js/lotes-actuaciones-source.js",
             "sec29-lotes-actuaciones-source"
         )
@@ -83,6 +83,10 @@
             .then(() => loadScript(
                 "./assets/js/lotes-actuaciones-module.js",
                 "sec29-lotes-actuaciones-module"
+            ))
+            .then(() => loadScript(
+                "./assets/js/menu-consistency.js",
+                "sec29-menu-consistency"
             ))
             .catch((error) => {
                 console.error("No se pudo inicializar Creador de Lotes - Actuaciones:", error);
@@ -209,7 +213,7 @@
         });
 
         const version = document.querySelector(".site-header__version");
-        if (version) version.textContent = "v6.5.1";
+        if (version) version.textContent = "v6.5.2";
     }
 
     if (document.readyState === "loading") {
