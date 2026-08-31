@@ -11,6 +11,8 @@
 <p align="center">
   <a href="https://sinergiaestudio.github.io/herramientas-j15sec29/"><strong>Abrir Herramientas SEC29</strong></a>
   ·
+  <a href="https://biblioteca-judicial-inteligente.arielmarcelogomez7.chatgpt.site">Sistema de Actuaciones Judiciales</a>
+  ·
   <a href="https://sinergiaestudio.github.io/herramientas-j15sec29/#lotes-actuaciones">Lotes - Actuaciones</a>
   ·
   <a href="https://sinergiaestudio.github.io/Cedulas-EJE-v1.0/">Lotes - Cédulas</a>
@@ -21,7 +23,7 @@
 </p>
 
 <p align="center">
-  <img alt="versión" src="https://img.shields.io/badge/versión-6.5-821529">
+  <img alt="versión" src="https://img.shields.io/badge/versión-6.6-821529">
   <img alt="GitHub Pages" src="https://img.shields.io/badge/GitHub%20Pages-publicada-365F91">
   <img alt="procesamiento local" src="https://img.shields.io/badge/procesamiento-local-2F7D5C">
   <img alt="control humano" src="https://img.shields.io/badge/control-humano-B99655">
@@ -95,6 +97,7 @@ Controles incorporados:
 
 | Herramienta | Dirección |
 |---|---|
+| Entrada unificada IA JUDICIAL | [Sistema de Actuaciones Judiciales](https://biblioteca-judicial-inteligente.arielmarcelogomez7.chatgpt.site) |
 | Suite principal | [sinergiaestudio.github.io/herramientas-j15sec29](https://sinergiaestudio.github.io/herramientas-j15sec29/) |
 | Actuaciones y vencimientos | [Abrir módulo](https://sinergiaestudio.github.io/herramientas-j15sec29/#procesadores) |
 | Creador de actuaciones en lote | [Abrir módulo](https://sinergiaestudio.github.io/herramientas-j15sec29/#actuaciones-lote) |

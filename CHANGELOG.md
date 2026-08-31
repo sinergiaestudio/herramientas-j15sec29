@@ -1,5 +1,10 @@
 # Historial de cambios
 
+## 6.6.0 — 2026-08-31
+
+- Se agrega el acceso al Sistema de Actuaciones Judiciales como entrada unificada de IA JUDICIAL.
+- Las utilidades conservan su despliegue y ejecución independientes; el enlace no comparte datos, estado ni sesión.
+
 ## 6.5.1 — 2026-08-28
 
 - Se corrige una condición de carrera en **Creador de Lotes - Actuaciones**.

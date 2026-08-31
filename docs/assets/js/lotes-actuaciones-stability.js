@@ -19,7 +19,9 @@
         return updated;
     }
 
-    let source = base.source;
+    // Function#toString conserva CRLF en Windows. Normalizar vuelve idempotentes
+    // los anclajes literales y mantiene el mismo bookmarklet en todos los entornos.
+    let source = base.source.replace(/\r\n/g, "\n");
 
     source = replaceOnce(
         source,

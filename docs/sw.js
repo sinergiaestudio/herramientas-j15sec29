@@ -1,4 +1,4 @@
-const CACHE_NAME = "sec29-tools-v6.5.2";
+const CACHE_NAME = "sec29-tools-v6.6.0";
 const APP_SHELL = [
     "./",
     "./index.html",

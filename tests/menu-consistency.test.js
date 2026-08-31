@@ -13,6 +13,7 @@ const theme = fs.readFileSync(
     "utf8"
 );
 const serviceWorker = fs.readFileSync(path.join(root, "docs/sw.js"), "utf8");
+const indexHtml = fs.readFileSync(path.join(root, "docs/index.html"), "utf8");
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
 
 test("el menú principal conserva el orden canónico de automatización EJE", () => {
@@ -28,8 +29,14 @@ test("el menú principal conserva el orden canónico de automatización EJE", ()
 test("la suite carga y cachea el sincronizador de menú", () => {
     assert.match(theme, /menu-consistency\.js/);
     assert.match(serviceWorker, /menu-consistency\.js/);
-    assert.match(serviceWorker, /sec29-tools-v6\.5\.2/);
-    assert.equal(packageJson.version, "6.5.2");
+    assert.match(serviceWorker, /sec29-tools-v6\.6\.0/);
+    assert.equal(packageJson.version, "6.6.0");
+});
+
+test("la suite enlaza la entrada unificada de IA JUDICIAL sin compartir estado", () => {
+    assert.match(indexHtml, /Sistema de Actuaciones Judiciales/);
+    assert.match(indexHtml, /biblioteca-judicial-inteligente\.arielmarcelogomez7\.chatgpt\.site/);
+    assert.match(indexHtml, /Entrada unificada · acceso autenticado/);
 });
 
 test("el sincronizador reutiliza los enlaces existentes sin duplicar herramientas", () => {
