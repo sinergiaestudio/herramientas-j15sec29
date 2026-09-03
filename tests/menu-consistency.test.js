@@ -29,8 +29,8 @@ test("el menú principal conserva el orden canónico de automatización EJE", ()
 test("la suite carga y cachea el sincronizador de menú", () => {
     assert.match(theme, /menu-consistency\.js/);
     assert.match(serviceWorker, /menu-consistency\.js/);
-    assert.match(serviceWorker, /sec29-tools-v6\.7\.0/);
-    assert.equal(packageJson.version, "6.7.0");
+    assert.match(serviceWorker, /sec29-tools-v6\.7\.1/);
+    assert.equal(packageJson.version, "6.7.1");
 });
 
 test("la suite enlaza la entrada unificada de IA JUDICIAL sin compartir estado", () => {
