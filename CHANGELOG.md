@@ -1,5 +1,15 @@
 # Historial de cambios
 
+## 6.7.0 — 2026-09-03
+
+- Se incorpora un acceso opcional **Procesador de actuaciones** dentro de la tarjeta existente.
+- El acceso puede arrastrarse a la barra de marcadores de Chrome y también ejecutarse directamente desde la página.
+- El marcador abre una ventana compacta que reutiliza el mismo procesador, sin duplicar ni modificar su lógica.
+- La ventana muestra únicamente el Procesador de actuaciones y conserva el selector de tema claro u oscuro.
+- Se utiliza un nombre de ventana estable: al volver a pulsar el marcador, se enfoca la misma ventana sin recargarla ni perder el resultado.
+- La ventana permanece abierta hasta que el usuario la cierre y dispone de desplazamiento y redimensionamiento nativos.
+- Se agregan pruebas específicas y se renueva la caché de la suite.
+
 ## 6.6.0 — 2026-08-31
 
 - Se agrega el acceso al Sistema de Actuaciones Judiciales como entrada unificada de IA JUDICIAL.

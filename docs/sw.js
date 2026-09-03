@@ -1,4 +1,4 @@
-const CACHE_NAME = "sec29-tools-v6.6.0";
+const CACHE_NAME = "sec29-tools-v6.7.0";
 const APP_SHELL = [
     "./",
     "./index.html",
@@ -7,6 +7,7 @@ const APP_SHELL = [
     "./assets/css/styles-v5b.css",
     "./assets/css/styles-v6.css",
     "./assets/css/styles-theme.css",
+    "./assets/css/processor-popup.css?v=670",
     "./assets/js/processors.js",
     "./assets/js/cargador-eje-part1.js",
     "./assets/js/cargador-eje-part2.js",
@@ -21,6 +22,7 @@ const APP_SHELL = [
     "./assets/js/navigation.js",
     "./assets/js/external-navigation.js",
     "./assets/js/theme.js",
+    "./assets/js/processor-popup.js?v=670",
     "./favicon.svg",
     "./manifest.webmanifest",
     "./assets/icons/icon-192.png",

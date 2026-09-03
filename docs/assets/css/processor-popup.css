@@ -1,0 +1,220 @@
+/* ========================================================================== 
+   Procesador de actuaciones · acceso rápido y ventana independiente · v6.7
+   ========================================================================== */
+
+.processor-popup-access {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 11px 25px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(90deg, rgba(252, 245, 247, 0.95), rgba(255, 255, 255, 0.98));
+}
+
+.processor-popup-access__copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--ink-600);
+    line-height: 1.35;
+}
+
+.processor-popup-access__copy strong {
+    color: var(--ink-800);
+    font-size: 11px;
+    font-weight: 820;
+}
+
+.processor-popup-access__copy small {
+    font-size: 9.75px;
+    font-weight: 580;
+}
+
+.processor-popup-bookmarklet {
+    min-height: 34px;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 7px 11px;
+    color: var(--brand-800);
+    border: 1px solid #dcbac3;
+    border-radius: 9px;
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+    cursor: grab;
+    font-size: 10.5px;
+    font-weight: 790;
+    text-decoration: none;
+    transition:
+        color var(--transition),
+        border-color var(--transition),
+        background var(--transition),
+        box-shadow var(--transition),
+        transform var(--transition);
+}
+
+.processor-popup-bookmarklet:hover,
+.processor-popup-bookmarklet:focus-visible {
+    color: var(--brand-700);
+    border-color: var(--brand-600);
+    background: var(--brand-50);
+    box-shadow: 0 7px 16px rgba(111, 18, 36, 0.13);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.processor-popup-bookmarklet:active {
+    cursor: grabbing;
+    transform: translateY(0);
+}
+
+html[data-theme="dark"] .processor-popup-access {
+    border-color: var(--border);
+    background: linear-gradient(90deg, rgba(53, 23, 32, 0.98), rgba(26, 32, 40, 0.98));
+}
+
+html[data-theme="dark"] .processor-popup-bookmarklet {
+    color: #f2b1bf;
+    border-color: #6d3543;
+    background: #26171d;
+}
+
+html[data-theme="dark"] .processor-popup-bookmarklet:hover,
+html[data-theme="dark"] .processor-popup-bookmarklet:focus-visible {
+    color: #ffd9e1;
+    border-color: #a74c61;
+    background: #351820;
+}
+
+/* La ventana rápida reutiliza exactamente la tarjeta y la lógica existentes. */
+html.processor-popup-mode {
+    min-height: 100%;
+    overflow-x: hidden;
+    scroll-behavior: auto;
+    background: var(--surface-muted);
+}
+
+html.processor-popup-mode body {
+    min-width: 320px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 12% 2%, rgba(159, 29, 52, 0.07), transparent 18rem),
+        linear-gradient(180deg, #f6f7f9 0%, #eef0f3 100%);
+}
+
+html[data-theme="dark"].processor-popup-mode body {
+    background:
+        radial-gradient(circle at 12% 2%, rgba(159, 29, 52, 0.13), transparent 18rem),
+        linear-gradient(180deg, #141920 0%, #0f141a 100%);
+}
+
+html.processor-popup-mode .site-header {
+    position: sticky;
+    top: 0;
+    display: block;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+html.processor-popup-mode .site-header__inner {
+    width: 100%;
+    min-height: 48px;
+    justify-content: flex-start;
+    padding: 6px 10px;
+}
+
+html.processor-popup-mode .site-header__left {
+    gap: 0;
+}
+
+html.processor-popup-mode .site-header .menu-toggle,
+html.processor-popup-mode .site-header .brand,
+html.processor-popup-mode .site-header__meta,
+html.processor-popup-mode .sidebar,
+html.processor-popup-mode .sidebar-backdrop,
+html.processor-popup-mode .site-footer,
+html.processor-popup-mode .hero,
+html.processor-popup-mode [data-view]:not([data-view="procesadores"]),
+html.processor-popup-mode [data-processor="vencimientos"],
+html.processor-popup-mode .processor-popup-access {
+    display: none !important;
+}
+
+html.processor-popup-mode .site-header .theme-toggle {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+    display: grid !important;
+    margin: 0;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.18);
+    border-radius: 11px;
+    background: linear-gradient(180deg, var(--brand-700), var(--brand-900));
+    box-shadow: 0 6px 16px rgba(79, 13, 24, 0.22);
+}
+
+html.processor-popup-mode .workspace {
+    width: 100%;
+    min-height: 0;
+    display: block;
+    margin: 0;
+}
+
+html.processor-popup-mode .workspace__content {
+    width: 100%;
+    min-width: 0;
+}
+
+html.processor-popup-mode .workspace .app-shell {
+    width: 100%;
+    margin: 0;
+    padding: 0 10px 12px;
+}
+
+html.processor-popup-mode [data-view="procesadores"] {
+    display: block !important;
+}
+
+html.processor-popup-mode .tools-grid {
+    display: block;
+}
+
+html.processor-popup-mode [data-processor="actuaciones"] {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    border-radius: 17px;
+    box-shadow: 0 12px 34px rgba(53, 25, 31, 0.12);
+}
+
+html.processor-popup-mode .toast {
+    right: 12px;
+    bottom: 12px;
+    max-width: calc(100vw - 24px);
+}
+
+@media (max-width: 720px) {
+    .processor-popup-access {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+
+    .processor-popup-bookmarklet {
+        width: 100%;
+    }
+
+    html.processor-popup-mode .tool-card__header,
+    html.processor-popup-mode .tool-card__body {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+}

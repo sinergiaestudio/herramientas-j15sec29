@@ -13,6 +13,8 @@
   ·
   <a href="https://biblioteca-judicial-inteligente.arielmarcelogomez7.chatgpt.site">Sistema de Actuaciones Judiciales</a>
   ·
+  <a href="https://sinergiaestudio.github.io/herramientas-j15sec29/?modo=procesador-actuaciones#procesadores">Procesador rápido</a>
+  ·
   <a href="https://sinergiaestudio.github.io/herramientas-j15sec29/#lotes-actuaciones">Lotes - Actuaciones</a>
   ·
   <a href="https://sinergiaestudio.github.io/Cedulas-EJE-v1.0/">Lotes - Cédulas</a>
@@ -23,7 +25,7 @@
 </p>
 
 <p align="center">
-  <img alt="versión" src="https://img.shields.io/badge/versión-6.6-821529">
+  <img alt="versión" src="https://img.shields.io/badge/versión-6.7-821529">
   <img alt="GitHub Pages" src="https://img.shields.io/badge/GitHub%20Pages-publicada-365F91">
   <img alt="procesamiento local" src="https://img.shields.io/badge/procesamiento-local-2F7D5C">
   <img alt="control humano" src="https://img.shields.io/badge/control-humano-B99655">
@@ -55,6 +57,25 @@ La suite reúne procesadores de planillas, marcadores operativos para EJE y apli
 | **Creador de Lotes - Actuaciones** | Recorre expedientes en Crear lote con estado BORRADOR mediante `Aplicar y agregar → Limpiar`. | Borradores incorporados al lote, con verificación y registro CSV. |
 | **Creador de Lotes - Cédulas** | Analiza PDFs de confronte, separa remisiones, observaciones y casos ambiguos. | Lista revisable para Crear lote y acceso asistido a EJE. |
 | **Confronte de Liquidaciones EJF** | Compara constancias de deuda y liquidaciones mandatarias y recalcula intereses. | Control de identidad, integridad nominal y cálculo trazable. |
+
+## Ventana rápida del Procesador de actuaciones
+
+La versión 6.7 agrega un acceso opcional dentro de la tarjeta **Procesador de actuaciones**. El botón puede arrastrarse a la barra de marcadores de Chrome.
+
+Al ejecutarlo:
+
+- abre una ventana compacta que contiene únicamente el procesador de actuaciones;
+- reutiliza exactamente la misma tarjeta, validaciones y formato de salida de la suite;
+- mantiene visible el selector de tema claro u oscuro;
+- permanece abierta hasta que el usuario la cierre;
+- si se vuelve a pulsar el marcador, enfoca la misma ventana sin recargarla ni perder el resultado procesado;
+- no inyecta código en EJE ni necesita que la pestaña activa sea una página determinada.
+
+La dirección compacta también puede abrirse directamente:
+
+```text
+https://sinergiaestudio.github.io/herramientas-j15sec29/?modo=procesador-actuaciones#procesadores
+```
 
 ## Creador de Lotes - Actuaciones
 
@@ -100,6 +121,7 @@ Controles incorporados:
 | Entrada unificada IA JUDICIAL | [Sistema de Actuaciones Judiciales](https://biblioteca-judicial-inteligente.arielmarcelogomez7.chatgpt.site) |
 | Suite principal | [sinergiaestudio.github.io/herramientas-j15sec29](https://sinergiaestudio.github.io/herramientas-j15sec29/) |
 | Actuaciones y vencimientos | [Abrir módulo](https://sinergiaestudio.github.io/herramientas-j15sec29/#procesadores) |
+| Procesador de actuaciones — ventana rápida | [Abrir ventana compacta](https://sinergiaestudio.github.io/herramientas-j15sec29/?modo=procesador-actuaciones#procesadores) |
 | Creador de actuaciones en lote | [Abrir módulo](https://sinergiaestudio.github.io/herramientas-j15sec29/#actuaciones-lote) |
 | Creador de Lotes - Actuaciones | [Abrir módulo](https://sinergiaestudio.github.io/herramientas-j15sec29/#lotes-actuaciones) |
 | Creador de Lotes - Cédulas | [Abrir aplicación](https://sinergiaestudio.github.io/Cedulas-EJE-v1.0/) |
@@ -175,7 +197,7 @@ La suite es una aplicación estática publicada desde `/docs` mediante GitHub Pa
 npm test
 ```
 
-Las pruebas verifican formatos, filtros, navegación, menú lateral, tema y consistencia de los marcadores EJE.
+Las pruebas verifican formatos, filtros, navegación, menú lateral, tema, ventana rápida y consistencia de los marcadores EJE.
 
 ## Repositorios relacionados
 
