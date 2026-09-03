@@ -26,19 +26,32 @@ test("la página carga el acceso rápido sin reemplazar el procesador existente"
 });
 
 
-test("el marcador abre o enfoca una única ventana persistente", () => {
-    assert.match(script, /SEC29_PROCESADOR_ACTUACIONES/);
-    assert.match(script, /modo=procesador-actuaciones#procesadores/);
-    assert.match(script, /window\.open\("", name, features\)/);
-    assert.match(script, /popup\.location\.href === "about:blank"/);
-    assert.match(script, /popup\.location\.replace\(url\)/);
-    assert.match(script, /popup\.focus\(\)/);
-    assert.match(script, /resizable=yes/);
-    assert.match(script, /scrollbars=yes/);
+test("el marcador despliega una única herramienta flotante sobre la página actual", () => {
+    assert.match(script, /__sec29_procesador_actuaciones_panel__/);
+    assert.match(script, /attachShadow\(\{ mode: "open" \}\)/);
+    assert.match(script, /data-sec29-processor-panel/);
+    assert.match(script, /data-panel-frame/);
+    assert.match(script, /<iframe/);
+    assert.match(script, /restoreExisting\(\)/);
+    assert.match(script, /panel\?\.focus/);
+    assert.doesNotMatch(script, /window\.open\(/);
 });
 
 
-test("la ventana rápida muestra únicamente el Procesador de actuaciones", () => {
+test("el panel puede moverse, redimensionarse, minimizarse y conservar su geometría", () => {
+    assert.match(script, /resize: both/);
+    assert.match(script, /data-panel-drag-handle/);
+    assert.match(script, /setPointerCapture/);
+    assert.match(script, /pointermove/);
+    assert.match(script, /data-panel-minimize/);
+    assert.match(script, /is-minimized/);
+    assert.match(script, /ResizeObserver/);
+    assert.match(script, /localStorage\.setItem\(stateKey/);
+    assert.match(script, /localStorage\.getItem\(stateKey/);
+});
+
+
+test("la vista interna muestra únicamente el Procesador de actuaciones", () => {
     assert.match(script, /processor-popup-mode/);
     assert.match(script, /view\.dataset\.view === "procesadores"/);
     assert.match(css, /\[data-processor="vencimientos"\]/);
@@ -46,7 +59,6 @@ test("la ventana rápida muestra únicamente el Procesador de actuaciones", () =
     assert.match(css, /\.hero,/);
     assert.match(css, /\.site-footer,/);
     assert.match(css, /\.tools-grid\s*\{[\s\S]*display:\s*block;/);
-    assert.doesNotMatch(script, /iframe/i);
 });
 
 
@@ -55,6 +67,13 @@ test("el modo compacto conserva visible el selector claro y oscuro", () => {
     assert.match(css, /display:\s*grid !important/);
     assert.match(css, /\.site-header \.menu-toggle,/);
     assert.match(css, /\.site-header \.brand,/);
+});
+
+
+test("el acceso describe el comportamiento como panel sobre la página actual", () => {
+    assert.match(script, /Panel flotante/);
+    assert.match(script, /despliega el procesador sobre la página actual/);
+    assert.match(script, /moverlo, redimensionarlo y minimizarlo/);
 });
 
 
