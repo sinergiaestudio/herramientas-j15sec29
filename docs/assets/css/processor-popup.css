@@ -1,5 +1,5 @@
 /* ========================================================================== 
-   Procesador de actuaciones · acceso rápido y ventana independiente · v6.7
+   Procesador de actuaciones · acceso rápido y vista compacta · v6.7.1
    ========================================================================== */
 
 .processor-popup-access {
@@ -90,7 +90,7 @@ html[data-theme="dark"] .processor-popup-bookmarklet:focus-visible {
     background: #351820;
 }
 
-/* La ventana rápida reutiliza exactamente la tarjeta y la lógica existentes. */
+/* La vista compacta reutiliza exactamente la tarjeta y la lógica existentes dentro del panel flotante. */
 html.processor-popup-mode {
     min-height: 100%;
     overflow-x: hidden;
